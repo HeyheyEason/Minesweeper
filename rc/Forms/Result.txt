@@ -1,0 +1,245 @@
+Picture.Background {
+    IgnoreMouseEvents = true;
+    Size = (1920, 1000);
+
+    Renderer {
+        Texture = "../Graphics/Background.png" Smooth;
+        TransparentTexture = false;
+    }
+}
+
+Picture.ResultTitle {
+    Size = (1920, 1000);
+
+    Renderer {
+        Texture = "../Graphics/ResultTitle.png" Smooth;
+        TransparentTexture = false;
+    }
+}
+
+Picture.ResultPicture {
+    Position = (500, 300);
+    Size = (900, 450);
+
+    Renderer {
+        Texture = "../Graphics/ResultPicture.png" Smooth;
+        TransparentTexture = false;
+    }
+}
+
+Label.PlayerNameLabel {
+    AutoSize = true;
+    Position = (590, 320);
+    Size = (437, 55);
+    Text = "Player Name: Player";
+    TextSize = 42;
+
+    Renderer {
+        BackgroundColor = transparent;
+        BorderColor = #3C3C3C;
+        Borders = (0, 0, 0, 0);
+        TextColor = black;
+        TextureBackground = None;
+
+        Scrollbar {
+            ArrowBackgroundColor = #F5F5F5;
+            ArrowBackgroundColorHover = white;
+            ArrowColor = #3C3C3C;
+            ArrowColorHover = black;
+            ThumbColor = #DCDCDC;
+            ThumbColorHover = #E6E6E6;
+            TrackColor = #F5F5F5;
+        }
+    }
+}
+
+Label.DifficultyLabel {
+    AutoSize = true;
+    Position = (590, 380);
+    Size = (391, 55);
+    Text = "Difficulty: Medium";
+    TextSize = 42;
+
+    Renderer {
+        BackgroundColor = transparent;
+        BorderColor = #3C3C3C;
+        Borders = (0, 0, 0, 0);
+        TextColor = blue;
+        TextureBackground = None;
+
+        Scrollbar {
+            ArrowBackgroundColor = #F5F5F5;
+            ArrowBackgroundColorHover = white;
+            ArrowColor = #3C3C3C;
+            ArrowColorHover = black;
+            ThumbColor = #DCDCDC;
+            ThumbColorHover = #E6E6E6;
+            TrackColor = #F5F5F5;
+        }
+    }
+}
+
+Label.ResultLabel {
+    AutoSize = true;
+    Position = (590, 440);
+    Size = (248, 55);
+    Text = "Result: Win";
+    TextSize = 42;
+
+    Renderer {
+        BackgroundColor = transparent;
+        BorderColor = #3C3C3C;
+        Borders = (0, 0, 0, 0);
+        TextColor = red;
+        TextureBackground = None;
+
+        Scrollbar {
+            ArrowBackgroundColor = #F5F5F5;
+            ArrowBackgroundColorHover = white;
+            ArrowColor = #3C3C3C;
+            ArrowColorHover = black;
+            ThumbColor = #DCDCDC;
+            ThumbColorHover = #E6E6E6;
+            TrackColor = #F5F5F5;
+        }
+    }
+}
+
+Label.StepLabel {
+    AutoSize = true;
+    Position = (590, 500);
+    Size = (158, 55);
+    Text = "Step: 0";
+    TextSize = 42;
+
+    Renderer {
+        BackgroundColor = transparent;
+        BorderColor = #3C3C3C;
+        Borders = (0, 0, 0, 0);
+        TextColor = #009300;
+        TextureBackground = None;
+
+        Scrollbar {
+            ArrowBackgroundColor = #F5F5F5;
+            ArrowBackgroundColorHover = white;
+            ArrowColor = #3C3C3C;
+            ArrowColorHover = black;
+            ThumbColor = #DCDCDC;
+            ThumbColorHover = #E6E6E6;
+            TrackColor = #F5F5F5;
+        }
+    }
+}
+
+Label.RemainingLabel {
+    AutoSize = true;
+    Position = (590, 560);
+    Size = (290, 55);
+    Text = "Remaining: 0";
+    TextSize = 42;
+
+    Renderer {
+        BackgroundColor = transparent;
+        BorderColor = #3C3C3C;
+        Borders = (0, 0, 0, 0);
+        TextColor = #009300;
+        TextureBackground = None;
+
+        Scrollbar {
+            ArrowBackgroundColor = #F5F5F5;
+            ArrowBackgroundColorHover = white;
+            ArrowColor = #3C3C3C;
+            ArrowColorHover = black;
+            ThumbColor = #DCDCDC;
+            ThumbColorHover = #E6E6E6;
+            TrackColor = #F5F5F5;
+        }
+    }
+}
+
+Label.MarkCountLabel {
+    AutoSize = true;
+    Position = (590, 620);
+    Size = (306, 55);
+    Text = "Mark Count: 0";
+    TextSize = 42;
+
+    Renderer {
+        BackgroundColor = transparent;
+        BorderColor = #3C3C3C;
+        Borders = (0, 0, 0, 0);
+        TextColor = #009300;
+        TextureBackground = None;
+
+        Scrollbar {
+            ArrowBackgroundColor = #F5F5F5;
+            ArrowBackgroundColorHover = white;
+            ArrowColor = #3C3C3C;
+            ArrowColorHover = black;
+            ThumbColor = #DCDCDC;
+            ThumbColorHover = #E6E6E6;
+            TrackColor = #F5F5F5;
+        }
+    }
+}
+
+Label.TotalTimeLabel {
+    AutoSize = true;
+    Position = (590, 680);
+    Size = (384, 55);
+    Text = "Total Time: 0m 0s";
+    TextSize = 42;
+
+    Renderer {
+        BackgroundColor = transparent;
+        BorderColor = #3C3C3C;
+        Borders = (0, 0, 0, 0);
+        TextColor = #009300;
+        TextureBackground = None;
+
+        Scrollbar {
+            ArrowBackgroundColor = #F5F5F5;
+            ArrowBackgroundColorHover = white;
+            ArrowColor = #3C3C3C;
+            ArrowColorHover = black;
+            ThumbColor = #DCDCDC;
+            ThumbColorHover = #E6E6E6;
+            TrackColor = #F5F5F5;
+        }
+    }
+}
+
+Button.OKButton {
+    MouseCursor = Hand;
+    Position = (860, 800);
+    Size = (195, 65);
+    Text = OK;
+    TextSize = 42;
+
+    Renderer {
+        BackgroundColor = #FFF0A0;
+        BackgroundColorDisabled = #E6E6E6;
+        BackgroundColorDown = #EBEBEB;
+        BackgroundColorDownHover = red;
+        BackgroundColorHover = green;
+        BorderColor = #3C3C3C;
+        BorderColorDisabled = #7D7D7D;
+        BorderColorDown = black;
+        BorderColorFocused = #1E1EB4;
+        BorderColorHover = black;
+        Borders = (1, 1, 1, 1);
+        RoundedBorderRadius = 30;
+        TextColor = black;
+        TextColorDisabled = #7D7D7D;
+        TextColorDown = black;
+        TextColorDownHover = white;
+        TextColorHover = black;
+        Texture = None;
+        TextureDisabled = None;
+        TextureDown = None;
+        TextureDownFocused = None;
+        TextureDownHover = None;
+        TextureFocused = None;
+        TextureHover = None;
+    }
+}

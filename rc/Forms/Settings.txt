@@ -1,0 +1,159 @@
+Renderer.1 {
+    BorderColor = White;
+    TextureThumb = "themes/BabyBlue.png" Part(84, 40, 17, 38) Smooth;
+    TextureThumbHover = None;
+    TextureTrack = "themes/BabyBlue.png" Part(38, 2, 30, 20) Middle(10, 0, 10, 20) Smooth;
+    TextureTrackHover = None;
+    ThumbColor = rgb(100, 100, 100);
+    TrackColor = rgb(210, 210, 210);
+}
+
+Picture.Background {
+    IgnoreMouseEvents = true;
+    Size = (1920, 1000);
+
+    Renderer {
+        Texture = "../Graphics/Background.png" Smooth;
+        TransparentTexture = false;
+    }
+}
+
+Picture.SettingsTitle {
+    Size = (1920, 1000);
+
+    Renderer {
+        Texture = "../Graphics/SettingsTitle.png" Smooth;
+        TransparentTexture = false;
+    }
+}
+
+Label.MusicVolumeLabel {
+    AutoSize = true;
+    Position = (550, 320);
+    Size = (299, 55);
+    Text = "Music Volume";
+    TextSize = 42;
+    VerticalAlignment = Center;
+
+    Renderer {
+        BackgroundColor = transparent;
+        BorderColor = #3C3C3C;
+        Borders = (0, 0, 0, 0);
+        TextColor = green;
+        TextureBackground = None;
+
+        Scrollbar {
+            ArrowBackgroundColor = #F5F5F5;
+            ArrowBackgroundColorHover = white;
+            ArrowColor = #3C3C3C;
+            ArrowColorHover = black;
+            TextureArrowDown = None;
+            TextureArrowDownHover = None;
+            TextureArrowUp = None;
+            TextureArrowUpHover = None;
+            TextureThumb = None;
+            TextureThumbHover = None;
+            TextureTrack = None;
+            TextureTrackHover = None;
+            ThumbColor = #DCDCDC;
+            ThumbColorHover = #E6E6E6;
+            TrackColor = #F5F5F5;
+        }
+    }
+}
+
+Label.SoundVolumeLabel {
+    AutoSize = true;
+    Position = (550, 520);
+    Size = (312, 55);
+    Text = "Sound Volume";
+    TextSize = 42;
+    VerticalAlignment = Center;
+
+    Renderer {
+        BackgroundColor = transparent;
+        BorderColor = #3C3C3C;
+        Borders = (0, 0, 0, 0);
+        TextColor = green;
+        TextureBackground = None;
+
+        Scrollbar {
+            ArrowBackgroundColor = #F5F5F5;
+            ArrowBackgroundColorHover = white;
+            ArrowColor = #3C3C3C;
+            ArrowColorHover = black;
+            TextureArrowDown = None;
+            TextureArrowDownHover = None;
+            TextureArrowUp = None;
+            TextureArrowUpHover = None;
+            TextureThumb = None;
+            TextureThumbHover = None;
+            TextureTrack = None;
+            TextureTrackHover = None;
+            ThumbColor = #DCDCDC;
+            ThumbColorHover = #E6E6E6;
+            TrackColor = #F5F5F5;
+        }
+    }
+}
+
+Slider.MusicVolumeSlider {
+    ChangeValueOnScroll = true;
+    InvertedDirection = false;
+    Maximum = 100;
+    Minimum = 0;
+    MouseCursor = Hand;
+    Position = (1120, 340);
+    Renderer = &1;
+    Size = (320, 24);
+    Step = 1;
+    Value = 100;
+}
+
+Slider.SoundVolumeSlider {
+    ChangeValueOnScroll = true;
+    InvertedDirection = false;
+    Maximum = 100;
+    Minimum = 0;
+    MouseCursor = Hand;
+    Position = (1120, 530);
+    Renderer = &1;
+    Size = (320, 24);
+    Step = 1;
+    Value = 100;
+}
+
+Button.SaveButton {
+    MouseCursor = Hand;
+    Position = (860, 710);
+    Size = (195, 65);
+    Text = Save;
+    TextSize = 42;
+
+    Renderer {
+        BackgroundColor = #FFF0A0;
+        BackgroundColorDisabled = #E6E6E6;
+        BackgroundColorDown = #EBEBEB;
+        BackgroundColorDownHover = red;
+        BackgroundColorHover = green;
+        BorderColor = #3C3C3C;
+        BorderColorDisabled = #7D7D7D;
+        BorderColorDown = black;
+        BorderColorFocused = #1E1EB4;
+        BorderColorHover = black;
+        Borders = (1, 1, 1, 1);
+        RoundedBorderRadius = 30;
+        TextColor = black;
+        TextColorDisabled = #7D7D7D;
+        TextColorDown = black;
+        TextColorDownHover = white;
+        TextColorHover = black;
+        Texture = None;
+        TextureDisabled = None;
+        TextureDown = None;
+        TextureDownFocused = None;
+        TextureDownHover = None;
+        TextureFocused = None;
+        TextureHover = None;
+    }
+}

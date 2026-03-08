@@ -1,0 +1,266 @@
+Renderer.1 {
+    BackgroundColor = transparent;
+    BorderColor = #3C3C3C;
+    Borders = (0, 0, 0, 0);
+    TextColor = green;
+    TextureBackground = None;
+
+    Scrollbar {
+        ArrowBackgroundColor = #F5F5F5;
+        ArrowBackgroundColorHover = white;
+        ArrowColor = #3C3C3C;
+        ArrowColorHover = black;
+        TextureArrowDown = None;
+        TextureArrowDownHover = None;
+        TextureArrowUp = None;
+        TextureArrowUpHover = None;
+        TextureThumb = None;
+        TextureThumbHover = None;
+        TextureTrack = None;
+        TextureTrackHover = None;
+        ThumbColor = #DCDCDC;
+        ThumbColorHover = #E6E6E6;
+        TrackColor = #F5F5F5;
+    }
+}
+
+Renderer.2 {
+    BackgroundColor = rgba(180, 180, 180, 215);
+    BackgroundColorHover = rgba(190, 190, 190, 215);
+    BorderColor = rgba(240, 240, 240, 215);
+    Borders = 1;
+    CaretColor = rgba(255, 255, 255, 215);
+    DefaultTextColor = rgba(240, 240, 240, 175);
+    SelectedTextBackgroundColor = rgba(0, 110, 200, 130);
+    SelectedTextColor = rgba(255, 255, 255, 245);
+    TextColor = rgba(255, 255, 255, 215);
+    Texture = None;
+    TextureDisabled = None;
+    TextureFocused = None;
+    TextureHover = None;
+}
+
+Picture.Background {
+    IgnoreMouseEvents = true;
+    Size = (1920, 1000);
+
+    Renderer {
+        Texture = "../Graphics/Background.png" Smooth;
+        TransparentTexture = false;
+    }
+}
+
+Picture.OptionsTitle {
+    Size = (1920, 1000);
+
+    Renderer {
+        Texture = "../Graphics/OptionsTitle.png" Smooth;
+        TransparentTexture = false;
+    }
+}
+
+Label.DifficultyLabel {
+    AutoSize = true;
+    Position = (500, 300);
+    Size = (198, 55);
+    Text = Difficulty;
+    TextSize = 42;
+
+    Renderer {
+        BackgroundColor = transparent;
+        BorderColor = #3C3C3C;
+        Borders = (0, 0, 0, 0);
+        TextColor = green;
+        TextureBackground = None;
+
+        Scrollbar {
+            ArrowBackgroundColor = #F5F5F5;
+            ArrowBackgroundColorHover = white;
+            ArrowColor = #3C3C3C;
+            ArrowColorHover = black;
+            TextureArrowDown = None;
+            TextureArrowDownHover = None;
+            TextureArrowUp = None;
+            TextureArrowUpHover = None;
+            TextureThumb = None;
+            TextureThumbHover = None;
+            TextureTrack = None;
+            TextureTrackHover = None;
+            ThumbColor = #DCDCDC;
+            ThumbColorHover = #E6E6E6;
+            TrackColor = #F5F5F5;
+        }
+    }
+}
+
+Label.YourNameLabel {
+    AutoSize = true;
+    Position = (500, 440);
+    Renderer = &1;
+    Size = (238, 55);
+    Text = "Your Name";
+    TextSize = 42;
+}
+
+Label.StartPositionLabel {
+    AutoSize = true;
+    Position = (500, 590);
+    Renderer = &1;
+    Size = (290, 55);
+    Text = "Start Position";
+    TextSize = 42;
+}
+
+ComboBox.DifficultyComboBox {
+    ChangeItemOnScroll = false;
+    Items = [Easy, Medium, Hard];
+    ItemsToDisplay = 0;
+    MaximumItems = 3;
+    MouseCursor = Hand;
+    Position = (1180, 290);
+    SelectedItemIndex = 1;
+    Size = (250, 61);
+    TextSize = 42;
+
+    Renderer {
+        ArrowBackgroundColor = rgb(210, 210, 210);
+        ArrowColor = rgb(100, 100, 100);
+        BackgroundColor = rgb(210, 210, 210);
+        BorderColor = White;
+        Borders = (2, 2, 2, 2);
+        TextColor = rgb(100, 100, 100);
+        TextureArrow = "themes/BabyBlue.png" Part(177, 2, 20, 26) Smooth;
+        TextureArrowDisabled = None;
+        TextureArrowHover = None;
+        TextureBackground = None;
+        TextureBackgroundDisabled = None;
+
+        ListBox {
+            BackgroundColor = rgb(210, 210, 210);
+            BorderColor = White;
+            Borders = (2, 2, 2, 2);
+            SelectedBackgroundColor = rgb(190, 225, 235);
+            SelectedTextColor = rgb(150, 150, 150);
+            TextColor = rgb(100, 100, 100);
+            TextureBackground = None;
+
+            Scrollbar {
+                ArrowBackgroundColor = rgb(210, 210, 210);
+                ArrowColor = rgb(100, 100, 100);
+                TextureArrowDown = "themes/BabyBlue.png" Part(20, 2, 16, 16) Smooth;
+                TextureArrowDownHover = None;
+                TextureArrowUp = "themes/BabyBlue.png" Part(2, 2, 16, 16) Smooth;
+                TextureArrowUpHover = None;
+                TextureThumb = "themes/BabyBlue.png" Part(414, 2, 16, 32) Smooth;
+                TextureThumbHover = None;
+                TextureTrack = "themes/BabyBlue.png" Part(432, 2, 16, 32) Smooth;
+                TextureTrackHover = None;
+                ThumbColor = rgb(100, 100, 100);
+                TrackColor = rgb(210, 210, 210);
+            }
+        }
+    }
+}
+
+EditBox.YourNameEditBox {
+    DefaultText = Player;
+    MaximumCharacters = 10;
+    MouseCursor = Text;
+    Position = (1180, 430);
+    Renderer = &2;
+    Size = (250, 61);
+    TextSize = 42;
+}
+
+EditBox.StartPosXEditBox {
+    Alignment = Center;
+    DefaultText = X;
+    InputValidator = "^(1[0-5]|[0-9])$";
+    MaximumCharacters = 2;
+    MouseCursor = Text;
+    Position = (1180, 580);
+    Renderer = &2;
+    Size = (90, 61);
+    TextSize = 42;
+}
+
+EditBox.StartPosYEditBox {
+    Alignment = Center;
+    DefaultText = Y;
+    InputValidator = "^(1[0-5]|[0-9])$";
+    MaximumCharacters = 2;
+    MouseCursor = Text;
+    Position = (1340, 580);
+    Renderer = &2;
+    Size = (90, 61);
+    TextSize = 42;
+}
+
+Button.ReadyButton {
+    MouseCursor = Hand;
+    Position = (1090, 760);
+    Text = Ready;
+    TextSize = 42;
+
+    Renderer {
+        BackgroundColor = #FFF0A0;
+        BackgroundColorDisabled = #E6E6E6;
+        BackgroundColorDown = #EBEBEB;
+        BackgroundColorDownHover = red;
+        BackgroundColorHover = green;
+        BorderColor = #3C3C3C;
+        BorderColorDisabled = #7D7D7D;
+        BorderColorDown = black;
+        BorderColorFocused = #1E1EB4;
+        BorderColorHover = black;
+        Borders = (1, 1, 1, 1);
+        RoundedBorderRadius = 30;
+        TextColor = black;
+        TextColorDisabled = #7D7D7D;
+        TextColorDown = black;
+        TextColorDownHover = white;
+        TextColorHover = black;
+        Texture = None;
+        TextureDisabled = None;
+        TextureDown = None;
+        TextureDownFocused = None;
+        TextureDownHover = None;
+        TextureFocused = None;
+        TextureHover = None;
+    }
+}
+
+Button.BackButton {
+    MouseCursor = Hand;
+    Position = (660, 760);
+    Size = (184, 65);
+    Text = Back;
+    TextSize = 42;
+
+    Renderer {
+        BackgroundColor = #FFF0A0;
+        BackgroundColorDisabled = #E6E6E6;
+        BackgroundColorDown = #EBEBEB;
+        BackgroundColorDownHover = red;
+        BackgroundColorHover = green;
+        BorderColor = #3C3C3C;
+        BorderColorDisabled = #7D7D7D;
+        BorderColorDown = black;
+        BorderColorFocused = #1E1EB4;
+        BorderColorHover = black;
+        Borders = (1, 1, 1, 1);
+        RoundedBorderRadius = 30;
+        TextColor = black;
+        TextColorDisabled = #7D7D7D;
+        TextColorDown = black;
+        TextColorDownHover = white;
+        TextColorHover = black;
+        Texture = None;
+        TextureDisabled = None;
+        TextureDown = None;
+        TextureDownFocused = None;
+        TextureDownHover = None;
+        TextureFocused = None;
+        TextureHover = None;
+    }
+}

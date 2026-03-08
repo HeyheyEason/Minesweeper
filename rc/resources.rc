@@ -1,0 +1,39 @@
+#pragma code_page(65001)
+
+#include <Windows.h>
+
+101 ICON "Icon/ExplorerIcon.ico"
+
+1 VERSIONINFO
+	FILEVERSION 1,0,0,0
+	PRODUCTVERSION 1,2,1,0
+	FILEFLAGSMASK VS_FFI_FILEFLAGSMASK
+#ifdef _DEBUG
+	FILEFLAGS VS_FF_DEBUG
+#else
+	FILEFLAGS 0x0L
+#endif
+	FILEOS VOS_NT_WINDOWS32
+	FILETYPE VFT_APP
+	FILESUBTYPE 0x0L
+	
+BEGIN
+	BLOCK "StringFileInfo"
+	BEGIN
+		BLOCK "040904B0"
+		BEGIN
+			VALUE "CompanyName", "HeyheyEason"
+			VALUE "FileDescription", "A lightweight minesweeper game for fun."
+			VALUE "FileVersion", "1.0.0.0"
+			VALUE "InternalName", "HeyheyEason.Minesweeper.Game"
+			VALUE "LegalCopyright", "Copyright © HeyheyEason"
+			VALUE "OriginalFilename", "Minesweeper.exe"
+			VALUE "ProductName", "Minesweeper"
+			VALUE "ProductVersion", "1.2.1"
+		END
+	END
+	BLOCK "VarFileInfo"
+	BEGIN
+		VALUE "Translation", 0x409, 1200 // Unicode: English (US)
+	END
+END

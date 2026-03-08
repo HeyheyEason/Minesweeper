@@ -1,0 +1,72 @@
+Renderer.1 {
+    BackgroundColor = #D25AFF;
+    BackgroundColorDisabled = #E6E6E6;
+    BackgroundColorDown = #EBEBEB;
+    BackgroundColorDownHover = red;
+    BackgroundColorHover = green;
+    BorderColor = #3C3C3C;
+    BorderColorDisabled = #7D7D7D;
+    BorderColorDown = black;
+    BorderColorFocused = #1E1EB4;
+    BorderColorHover = black;
+    Borders = (1, 1, 1, 1);
+    RoundedBorderRadius = 30;
+    TextColor = black;
+    TextColorDisabled = #7D7D7D;
+    TextColorDown = black;
+    TextColorDownHover = white;
+    TextColorHover = black;
+    Texture = None;
+    TextureDisabled = None;
+    TextureDown = None;
+    TextureDownFocused = None;
+    TextureDownHover = None;
+    TextureFocused = None;
+    TextureHover = None;
+}
+
+Picture.Background {
+    IgnoreMouseEvents = true;
+    Size = (1920, 1000);
+
+    Renderer {
+        Texture = "../Graphics/Background.png" Smooth;
+        TransparentTexture = false;
+    }
+}
+
+Picture.PauseTitle {
+    Size = (1920, 1000);
+
+    Renderer {
+        Texture = "../Graphics/PauseTitle.png" Smooth;
+        TransparentTexture = false;
+    }
+}
+
+Button.ResumeButton {
+    MouseCursor = Hand;
+    Position = (770, 300);
+    Renderer = &1;
+    Size = (400, 100);
+    Text = Resume;
+    TextSize = 42;
+}
+
+Button.GiveUpButton {
+    MouseCursor = Hand;
+    Position = (770, 450);
+    Renderer = &1;
+    Size = (400, 100);
+    Text = "Give Up";
+    TextSize = 42;
+}
+
+Button.ExitButton {
+    MouseCursor = Hand;
+    Position = (770, 600);
+    Renderer = &1;
+    Size = (400, 100);
+    Text = Exit;
+    TextSize = 42;
+}
