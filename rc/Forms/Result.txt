@@ -1,6 +1,7 @@
 Picture.Background {
     IgnoreMouseEvents = true;
-    Size = (1920, 1000);
+    Position = (0, -40);
+    Size = (1920, 1080);
 
     Renderer {
         Texture = "../Graphics/Background.png" Smooth;
@@ -195,6 +196,32 @@ Label.TotalTimeLabel {
         BorderColor = #3C3C3C;
         Borders = (0, 0, 0, 0);
         TextColor = #009300;
+        TextureBackground = None;
+
+        Scrollbar {
+            ArrowBackgroundColor = #F5F5F5;
+            ArrowBackgroundColorHover = white;
+            ArrowColor = #3C3C3C;
+            ArrowColorHover = black;
+            ThumbColor = #DCDCDC;
+            ThumbColorHover = #E6E6E6;
+            TrackColor = #F5F5F5;
+        }
+    }
+}
+
+Label.RankLabel {
+    Position = (1150, 490);
+    ScrollbarPolicy = Automatic;
+    Size = (166.636, 205);
+    Text = A;
+    TextSize = 156;
+
+    Renderer {
+        BackgroundColor = transparent;
+        BorderColor = #3C3C3C;
+        Borders = (0, 0, 0, 0);
+        TextColor = red;
         TextureBackground = None;
 
         Scrollbar {

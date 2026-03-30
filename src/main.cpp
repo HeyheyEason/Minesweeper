@@ -29,15 +29,15 @@ int main() {
 	window.setKeyRepeatEnabled(false);
 	LOG_INFO("Testing...");
 
-	ui.adapter.start_game = [&](const std::string& name, int x, int y, int df_index) {
+	ui.bridge.start_game = [&](const std::string& name, int x, int y, int df_index) {
 		system.startGame(name, x, y, df_index, player, map, ui);
 	};
 
-	ui.adapter.resume_game = [&]() {
+	ui.bridge.resume_game = [&]() {
 		system.resumeGame();
 	};
 
-	ui.adapter.stop_game = [&](const std::string& res) {
+	ui.bridge.stop_game = [&](const std::string& res) {
 		system.stopGame(res, player, map, ui);
 	};
 

@@ -6,7 +6,7 @@
 #include <vector>
 #include <string>
 #include <functional>
-#include "Utilities/Adapter.hpp"
+#include "Utilities/Bridge.hpp"
 #include "Core/Map.hpp"
 #include "Core/Player.hpp"
 #include "Shell/Audio.hpp"
@@ -23,7 +23,7 @@ namespace Mines {
 
 	class UI {
 	public:
-		Adapter adapter;
+		Bridge bridge;
 		explicit UI(tgui::Gui& gui, const std::string& ui_folder, const std::string& version);
 		void handleError();
 		void switchPage(Page page);
@@ -46,7 +46,6 @@ namespace Mines {
 		Page current_page;
 		std::vector<tgui::Label::Ptr> cell_labels;
 
-		void fitBackground(tgui::Picture::Ptr background);
 		void loadPages(const std::string& folder);
 		void organizePages();
 	};

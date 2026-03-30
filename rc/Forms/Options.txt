@@ -42,7 +42,8 @@ Renderer.2 {
 
 Picture.Background {
     IgnoreMouseEvents = true;
-    Size = (1920, 1000);
+    Position = (0, -40);
+    Size = (1920, 1080);
 
     Renderer {
         Texture = "../Graphics/Background.png" Smooth;

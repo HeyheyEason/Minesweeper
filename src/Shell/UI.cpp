@@ -170,21 +170,6 @@ namespace Mines {
 		total_time_label->setText("Total Time: " + total_time.str());
 	}
 
-	void UI::fitBackground(tgui::Picture::Ptr background) {
-		if (!background) {
-			return;
-		}
-
-		float scale = 1080.f / background->getSize().y;
-		float new_w = background->getSize().x * scale;
-		float new_h = background->getSize().y * scale;
-		background->setSize({ new_w, new_h });
-
-		float offset_x = (new_w - 1920.f) / 2.f;
-		float offset_y = (new_h - 1080.f) / 2.f;
-		background->setPosition({ -offset_x, -offset_y });
-	}
-
 	void UI::loadPages(const std::string& folder) {
 		pages[Page::MAIN_MENU] = tgui::Group::create();
 		pages[Page::SETTINGS] = tgui::Group::create();
@@ -211,13 +196,6 @@ namespace Mines {
 		pages[Page::GAME]->loadWidgetsFromFile(folder + "GamePage.txt");
 		pages[Page::PAUSE]->loadWidgetsFromFile(folder + "Pause.txt");
 		pages[Page::RESULT]->loadWidgetsFromFile(folder + "Result.txt");
-
-		fitBackground(pages[Page::MAIN_MENU]->get<tgui::Picture>("Background"));
-		fitBackground(pages[Page::SETTINGS]->get<tgui::Picture>("Background"));
-		fitBackground(pages[Page::OPTIONS]->get<tgui::Picture>("Background"));
-		fitBackground(pages[Page::GAME]->get<tgui::Picture>("Background"));
-		fitBackground(pages[Page::PAUSE]->get<tgui::Picture>("Background"));
-		fitBackground(pages[Page::RESULT]->get<tgui::Picture>("Background"));
 
 		pages[Page::SETTINGS]->setVisible(false);
 		pages[Page::OPTIONS]->setVisible(false);
@@ -325,7 +303,7 @@ namespace Mines {
 					int df_index = df_dropdown->getSelectedItemIndex();
 					int start_x = start_x_input->getText().toInt(Randomizer::getInstance().getInt(0, 15));
 					int start_y = start_y_input->getText().toInt(Randomizer::getInstance().getInt(0, 15));
-					adapter.start_game(player_name, start_x, start_y, df_index);
+					bridge.start_game(player_name, start_x, start_y, df_index);
 
 					switchPage(Page::GAME);
 
@@ -379,7 +357,7 @@ namespace Mines {
 					LOG_INFO("Resume button clicked.");
 					Audio::getInstance().playSound("Click", true);
 					switchPage(Page::GAME);
-					adapter.resume_game();
+					bridge.resume_game();
 				}
 			);
 
@@ -388,7 +366,7 @@ namespace Mines {
 					LOG_INFO("Give Up button clicked.");
 					Audio::getInstance().playSound("Click", true);
 					switchPage(Page::GAME);
-					adapter.stop_game("Lose");
+					bridge.stop_game("Lose");
 				}
 			);
 

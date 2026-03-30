@@ -1,6 +1,7 @@
 Picture.Background {
     IgnoreMouseEvents = true;
-    Size = (1920, 1000);
+    Position = (0, -40);
+    Size = (1920, 1080);
 
     Renderer {
         Texture = "../Graphics/Background.png" Smooth;
@@ -171,10 +172,10 @@ Label.StepLabel {
 
 Label.MarkCountLabel {
     HorizontalAlignment = Right;
-    Position = (100, 510);
+    Position = (90, 500);
     ScrollbarPolicy = Automatic;
     Size = (385, 55);
-    Text = "MarkCount: 0";
+    Text = "Mark Count: 0";
     TextSize = 42;
 
     Renderer {
@@ -208,7 +209,7 @@ Label.MarkCountLabel {
 Label.RemainingLabel {
     AutoSize = true;
     HorizontalAlignment = Right;
-    Position = (120, 650);
+    Position = (120, 610);
     Size = (358, 55);
     Text = "Remaining: 211";
     TextSize = 42;
@@ -243,7 +244,7 @@ Label.RemainingLabel {
 
 Label.ControlModeLabel {
     AutoSize = true;
-    Position = (1450, 570);
+    Position = (1450, 550);
     Size = (444, 55);
     Text = "Control Mode: Move";
     TextSize = 42;
