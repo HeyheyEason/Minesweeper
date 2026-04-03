@@ -98,11 +98,11 @@ Label.SoundVolumeLabel {
     }
 }
 
-Label.FramerateLimitLabel {
+Label.FpsLimitLabel {
     AutoSize = true;
     Position = (500, 580);
-    Size = (345, 55);
-    Text = "Framerate Limit";
+    Size = (203, 55);
+    Text = "FPS Limit";
     TextSize = 42;
     VerticalAlignment = Center;
 
@@ -159,7 +159,7 @@ Slider.SoundVolumeSlider {
     Value = 100;
 }
 
-Slider.FramerateLimitSlider {
+Slider.FpsLimitSlider {
     ChangeValueOnScroll = true;
     InvertedDirection = false;
     Maximum = 120;
@@ -251,7 +251,7 @@ Label.SoundVolumeValueLabel {
     }
 }
 
-Label.FramerateLimitValueLabel {
+Label.FpsLimitValueLabel {
     AutoSize = true;
     Position = (1300, 580);
     Size = (64, 55);

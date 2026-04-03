@@ -1,3 +1,4 @@
+#include "Core/Table.hpp"
 #include "Shell/UI.hpp"
 #include "Shell/Audio.hpp"
 #include "Utilities/Randomizer.hpp"
@@ -247,29 +248,97 @@ namespace Mines {
 		}
 
 		try {
+			Table settings;
+			settings.load("../../data/Config/Settings.cfg");
+
 			auto save_button = pages[Page::SETTINGS]->get<tgui::Button>("SaveButton");
+			auto reset_button = pages[Page::SETTINGS]->get<tgui::Button>("ResetButton");
 			auto music_volume_slider = pages[Page::SETTINGS]->get<tgui::Slider>("MusicVolumeSlider");
 			auto sound_volume_slider = pages[Page::SETTINGS]->get<tgui::Slider>("SoundVolumeSlider");
+			auto fps_limit_slider = pages[Page::SETTINGS]->get<tgui::Slider>("FpsLimitSlider");
+			auto music_volume_value_label = pages[Page::SETTINGS]->get<tgui::Label>("MusicVolumeValueLabel");
+			auto sound_volume_value_label = pages[Page::SETTINGS]->get<tgui::Label>("SoundVolumeValueLabel");
+			auto fps_limit_value_label = pages[Page::SETTINGS]->get<tgui::Label>("FpsLimitValueLabel");
+
+			music_volume_slider->setValue(settings.get("MusicVolume", 100.f));
+			sound_volume_slider->setValue(settings.get("SoundVolume", 100.f));
+			fps_limit_slider->setValue(settings.get("FpsLimit", 60.f));
+			music_volume_value_label->setText(std::to_string(settings.get("MusicVolume", 100)));
+			sound_volume_value_label->setText(std::to_string(settings.get("SoundVolume", 100)));
+			fps_limit_value_label->setText(std::to_string(settings.get("FpsLimit", 60)));
+
+			Audio::getInstance().setMusicVolume(settings.get("MusicVolume", 100.f));
+			Audio::getInstance().setSoundVolume(settings.get("SoundVolume", 100.f));
+			gui.getWindow()->setFramerateLimit(settings.get("FpsLimit", 60));
 
 			save_button->onPress(
 				[this]() {
 					LOG_INFO("Save button clicked.");
 					Audio::getInstance().playSound("Click", true);
+
+					Table settings;
+					auto music_volume_slider = pages[Page::SETTINGS]->get<tgui::Slider>("MusicVolumeSlider");
+					auto sound_volume_slider = pages[Page::SETTINGS]->get<tgui::Slider>("SoundVolumeSlider");
+					auto fps_limit_slider = pages[Page::SETTINGS]->get<tgui::Slider>("FpsLimitSlider");
+
+					settings.set("MusicVolume", music_volume_slider->getValue());
+					settings.set("SoundVolume", sound_volume_slider->getValue());
+					settings.set("FpsLimit", fps_limit_slider->getValue());
+
+					settings.save("../../data/Config/Settings.cfg");
 					switchPage(Page::MAIN_MENU);
+				}
+			);
+
+			reset_button->onPress(
+				[this]() {
+					LOG_INFO("Reset button clicked.");
+					Audio::getInstance().playSound("Click", true);
+
+					auto music_volume_slider = pages[Page::SETTINGS]->get<tgui::Slider>("MusicVolumeSlider");
+					auto sound_volume_slider = pages[Page::SETTINGS]->get<tgui::Slider>("SoundVolumeSlider");
+					auto fps_limit_slider = pages[Page::SETTINGS]->get<tgui::Slider>("FpsLimitSlider");
+					auto music_volume_value_label = pages[Page::SETTINGS]->get<tgui::Label>("MusicVolumeValueLabel");
+					auto sound_volume_value_label = pages[Page::SETTINGS]->get<tgui::Label>("SoundVolumeValueLabel");
+					auto fps_limit_value_label = pages[Page::SETTINGS]->get<tgui::Label>("FpsLimitValueLabel");
+					
+					Audio::getInstance().setMusicVolume(Mines::DEFAULT_MUSIC_VOLUME);
+					Audio::getInstance().setSoundVolume(Mines::DEFAULT_SOUND_VOLUME);
+					gui.getWindow()->setFramerateLimit(Mines::DEFAULT_FPS_LIMIT);
+
+					music_volume_slider->setValue(Mines::DEFAULT_MUSIC_VOLUME);
+					sound_volume_slider->setValue(Mines::DEFAULT_SOUND_VOLUME);
+					fps_limit_slider->setValue(static_cast<float>(Mines::DEFAULT_FPS_LIMIT));
+					music_volume_value_label->setText(std::to_string(static_cast<int>(Mines::DEFAULT_MUSIC_VOLUME)));
+					sound_volume_value_label->setText(std::to_string(static_cast<int>(Mines::DEFAULT_SOUND_VOLUME)));
+					fps_limit_value_label->setText(std::to_string(Mines::DEFAULT_FPS_LIMIT));
 				}
 			);
 
 			music_volume_slider->onValueChange(
 				[this](float value) {
 					LOG_INFO("Music volume changed to {}.", value);
+					auto music_volume_value_label = pages[Page::SETTINGS]->get<tgui::Label>("MusicVolumeValueLabel");
 					Audio::getInstance().setMusicVolume(value);
+					music_volume_value_label->setText(std::to_string(static_cast<int>(value)));
 				}
 			);
 
 			sound_volume_slider->onValueChange(
 				[this](float value) {
 					LOG_INFO("Sound volume changed to {}.", value);
+					auto sound_volume_value_label = pages[Page::SETTINGS]->get<tgui::Label>("SoundVolumeValueLabel");
 					Audio::getInstance().setSoundVolume(value);
+					sound_volume_value_label->setText(std::to_string(static_cast<int>(value)));
+				}
+			);
+
+			fps_limit_slider->onValueChange(
+				[this](float value) {
+					LOG_INFO("FPS Limit changed to {}.", value);
+					auto fps_limit_value_label = pages[Page::SETTINGS]->get<tgui::Label>("FpsLimitValueLabel");
+					gui.getWindow()->setFramerateLimit(static_cast<unsigned int>(value));
+					fps_limit_value_label->setText(std::to_string(static_cast<int>(value)));
 				}
 			);
 		} catch (const tgui::Exception& e) {

@@ -5,12 +5,12 @@
 #include <string>
 
 namespace Mines {
-	class Config : public File {
+	class Table : public File {
 	public:
 		void set(const std::string& key, const auto& val) {
 			std::stringstream ss;
 			ss << val;
-			data[key] = val;
+			data[key] = ss.str();
 		}
 
 		auto get(const std::string& key, auto default_value) {

@@ -1,11 +1,11 @@
-#include "Core/Config.hpp"
+#include "Core/Table.hpp"
 
 namespace Mines {
-	void Config::onBeforeLoad() {
+	void Table::onBeforeLoad() {
 		data.clear();
 	}
 
-	void Config::parseLine(const std::string& line) {
+	void Table::parseLine(const std::string& line) {
 		size_t sep = line.find('=');
 
 		if (sep != std::string::npos) {
@@ -13,8 +13,17 @@ namespace Mines {
 			std::string v = line.substr(sep + 1);
 
 			auto trim = [](std::string& str) {
-				str.erase(0, str.find_first_not_of(" \t"));
-				str.erase(0, str.find_last_not_of(" \t") + 1);
+				const std::string whitespaces = " \t\r\n";
+
+				size_t first = str.find_first_not_of(whitespaces);
+
+				if (first == std::string::npos) {
+					str.clear();
+					return;
+				}
+
+				size_t last = str.find_last_not_of(whitespaces);
+				str = str.substr(first, (last - first + 1));
 			};
 
 			trim(k);
@@ -26,7 +35,7 @@ namespace Mines {
 		}
 	}
 
-	std::vector<std::string> Config::convertToLines() {
+	std::vector<std::string> Table::convertToLines() {
 		std::vector<std::string> out;
 
 		for (const auto& [k, v] : data) {

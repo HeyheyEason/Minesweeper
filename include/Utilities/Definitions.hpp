@@ -16,6 +16,10 @@ namespace Mines {
 	}
 
 	inline thread_local ExecutionState execution_state = ExecutionState::SUCCESS;
+
+	inline constexpr float DEFAULT_MUSIC_VOLUME = 100.f;
+	inline constexpr float DEFAULT_SOUND_VOLUME = 100.f;
+	inline constexpr int DEFAULT_FPS_LIMIT = 60;
 	
 #ifndef NDEBUG
 	inline constexpr int DEBUG_MINES_COUNT = 5;
