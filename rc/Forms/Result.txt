@@ -211,10 +211,10 @@ Label.TotalTimeLabel {
 }
 
 Label.RankLabel {
-    Position = (1150, 490);
+    Position = (1080, 490);
     ScrollbarPolicy = Automatic;
-    Size = (166.636, 205);
-    Text = A;
+    Size = (276.636, 205);
+    Text = "A+";
     TextSize = 156;
 
     Renderer {

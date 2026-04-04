@@ -1,6 +1,7 @@
 #include "Core/Map.hpp"
 #include "Utilities/Randomizer.hpp"
 #include "Utilities/Log.hpp"
+#include "Utilities/Definitions.hpp"
 #include <random>
 #include <algorithm>
 #include <numeric>
@@ -40,7 +41,7 @@ namespace Mines {
         int placed = 0;
 
         for (int block_idx : block_indices) {
-            if (placed >= static_cast<int>(df)) {
+            if (placed >= Mines::DEBUG_MINES_COUNT) {
                 break;
             }
 

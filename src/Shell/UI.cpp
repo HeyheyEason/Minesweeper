@@ -147,6 +147,7 @@ namespace Mines {
 		auto remaining_label = pages[Page::RESULT]->get<tgui::Label>("RemainingLabel");
 		auto mark_count_label = pages[Page::RESULT]->get<tgui::Label>("MarkCountLabel");
 		auto total_time_label = pages[Page::RESULT]->get<tgui::Label>("TotalTimeLabel");
+		auto rank_label = pages[Page::RESULT]->get<tgui::Label>("RankLabel");
 
 		int minutes = total_seconds / 60;
 		int seconds = total_seconds % 60;
@@ -162,6 +163,47 @@ namespace Mines {
 			difficulty = "Hard";
 		}
 
+		auto getRank = [&]() -> std::string {
+			if (result == "Lose") {
+				return "";
+			}
+
+			double amplifier = 1.5;
+
+			if (difficulty == "Easy") {
+				amplifier = 1.0;
+			}
+			else if (difficulty == "Hard") {
+				amplifier = 2.0;
+			}
+
+			int score = Mines::MAX_SCORE - (total_seconds * Mines::TIME_WEIGHT) - (player.getStep() * Mines::STEP_WEIGHT);
+			score *= amplifier;
+			std::string rank;
+
+			if (score >= 8500) {
+				rank = "S";
+			}
+			else if (score >= 7000) {
+				rank = "A";
+			}
+			else if (score >= 5000) {
+				rank = "B";
+			}
+			else if (score >= 3000) {
+				rank = "C";
+			}
+			else {
+				rank = "D";
+			}
+
+			if (player.getMarkCount() == 0) {
+				rank.push_back('+');
+			}
+
+			return rank;
+		};
+
 		player_name_label->setText("Player Name: " + player.getName());
 		difficulty_label->setText("Difficulty: " + difficulty);
 		result_label->setText("Result: " + result);
@@ -169,6 +211,7 @@ namespace Mines {
 		remaining_label->setText("Remaining: " + std::to_string(map.getCellToGo()));
 		mark_count_label->setText("Mark Count: " + std::to_string(player.getMarkCount()));
 		total_time_label->setText("Total Time: " + total_time.str());
+		rank_label->setText(getRank());
 	}
 
 	void UI::loadPages(const std::string& folder) {

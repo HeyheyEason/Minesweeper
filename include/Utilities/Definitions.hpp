@@ -17,6 +17,10 @@ namespace Mines {
 
 	inline thread_local ExecutionState execution_state = ExecutionState::SUCCESS;
 
+	inline constexpr int MAX_SCORE = 10000;
+	inline constexpr double TIME_WEIGHT = 10.0;
+	inline constexpr double STEP_WEIGHT = 2.0;
+
 	inline constexpr float DEFAULT_MUSIC_VOLUME = 100.f;
 	inline constexpr float DEFAULT_SOUND_VOLUME = 100.f;
 	inline constexpr int DEFAULT_FPS_LIMIT = 60;
