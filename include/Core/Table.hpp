@@ -13,6 +13,10 @@ namespace Mines {
 			data[key] = ss.str();
 		}
 
+		std::string get(const std::string& key, const char* default_value) {
+			return get<std::string>(key, std::string(default_value));
+		}
+
 		auto get(const std::string& key, auto default_value) {
 			auto it = data.find(key);
 

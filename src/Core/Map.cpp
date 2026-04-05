@@ -41,7 +41,7 @@ namespace Mines {
         int placed = 0;
 
         for (int block_idx : block_indices) {
-            if (placed >= Mines::DEBUG_MINES_COUNT) {
+            if (placed >= static_cast<int>(df)) {
                 break;
             }
 

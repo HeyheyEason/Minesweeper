@@ -2,15 +2,70 @@
 #include <TGUI/Backend/SFML-Graphics.hpp>
 #include <string>
 #include <memory>
+#include <cstdlib>
 #include "Shell/UI.hpp"
 #include "Shell/Audio.hpp"
 #include "Core/System.hpp"
 #include "Core/Player.hpp"
 #include "Core/Map.hpp"
+#include "Core/List.hpp"
 #include "Utilities/Log.hpp"
 #include "Utilities/Definitions.hpp"
 
-int main() {
+namespace Mines {
+	static void printTexts(const std::string& path) {
+		List texts;
+		texts.load(path);
+		size_t size = texts.getSize();
+		
+		for (size_t i = 0; i < size; ++i) {
+			std::cout << texts.get(i, "") << '\n';
+		}
+	}
+
+	static bool checkAndRestoreData() {
+		// pass
+		return false;
+	}
+
+	static void processArguments(const std::vector<std::string>& args) {
+		if (args.size() == 1) {
+			return;
+		}
+
+		for (int i = 0; i < args.size(); ++i) {
+			if (args[i] == "/debug") {
+#ifdef NDEBUG				
+#ifdef _WIN32
+				std::system("start ../Debug/Minesweeper.exe");
+				break;
+#else
+				std::system("../Debug/Minesweeper &");
+				break;
+#endif // _WIN32
+#else
+				return;
+#endif // NDEBUG
+			} else if (args[i] == "/restore_data") {
+				if (!checkAndRestoreData()) {
+					execution_state = ExecutionState::FAILED;
+				}
+
+				break;
+			} else if (args[i] == "--information" || args[i] == "-info") {
+				printTexts("../../rc/Texts/Info.txt");
+			} else if (args[i] == "--help" || args[i] == "-?") {
+				printTexts("../../rc/Texts/Help.txt");
+			}
+		}
+
+		std::exit(static_cast<int>(execution_state));
+	}
+} // namespace Mines
+
+int main(int argc, char* argv[]) {
+	Mines::processArguments(std::vector<std::string>(argv, argv + argc));
+
 	sf::RenderWindow window(sf::VideoMode({ 1920, 1000 }), "Minesweeper");
 	tgui::Gui gui(window);
 

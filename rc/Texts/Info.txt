@@ -1,0 +1,11 @@
+[Information]
+-- Introduction --
+A modern, high-performance Minesweeper implementation built with C++20. This project combines classic gameplay with a refined technical architecture, featuring a custom keyboard-driven navigation system and a modern UI.
+
+-- Technical Messages --
+Game Name: Minesweeper
+Version: 1.2.1
+Creator: HeyheyEason
+
+Check the GitHub repository for more information: 
+https://github.com/HeyheyEason/Minesweeper

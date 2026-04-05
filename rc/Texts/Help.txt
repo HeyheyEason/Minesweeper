@@ -1,0 +1,9 @@
+[Help]
+-- Command Line Arguments --
+1. /debug: Open the game in debug mode.
+2. /restore_data: Check and restore all necessary files for the game.
+3. --information (-info): Show basic information of the game.
+4. --help (-?): Show these texts.
+
+For in-game help, please check the game and the GitHub repository:
+https://github.com/HeyheyEason/Minesweeper
