@@ -3,6 +3,7 @@
 #include <string>
 #include <memory>
 #include <cstdlib>
+#include <filesystem>
 #include "Shell/UI.hpp"
 #include "Shell/Audio.hpp"
 #include "Core/System.hpp"
@@ -11,6 +12,8 @@
 #include "Core/List.hpp"
 #include "Utilities/Log.hpp"
 #include "Utilities/Definitions.hpp"
+
+namespace fs = std::filesystem;
 
 namespace Mines {
 	static void printTexts(const std::string& path) {
@@ -23,9 +26,23 @@ namespace Mines {
 		}
 	}
 
-	static bool checkAndRestoreData() {
-		// pass
-		return false;
+	static bool checkAndRestoreData(const std::string& path) {
+		fs::path root = fs::absolute(path).parent_path().parent_path().parent_path();
+		fs::path target = root / "data" / "Config" / "Settings.cfg";
+		fs::path origin = root / "rc" / "Backups" / "Settings.cfg";
+
+		if (!fs::exists(target)) {
+			try {
+				fs::create_directories(target.parent_path());
+				fs::copy_file(origin, target);
+				LOG_INFO("Restored: {}", target.string());
+			} catch (const fs::filesystem_error& e) {
+				LOG_ERROR("Filesystem Error: {}", e.what());
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	static void processArguments(const std::vector<std::string>& args) {
@@ -47,7 +64,7 @@ namespace Mines {
 				return;
 #endif // NDEBUG
 			} else if (args[i] == "/restore_data") {
-				if (!checkAndRestoreData()) {
+				if (!checkAndRestoreData(args[0])) {
 					execution_state = ExecutionState::FAILED;
 				}
 
@@ -65,6 +82,7 @@ namespace Mines {
 
 int main(int argc, char* argv[]) {
 	Mines::processArguments(std::vector<std::string>(argv, argv + argc));
+	Mines::checkAndRestoreData(std::string(argv[0]));
 
 	sf::RenderWindow window(sf::VideoMode({ 1920, 1000 }), "Minesweeper");
 	tgui::Gui gui(window);
