@@ -6,7 +6,7 @@
 
 1 VERSIONINFO
 	FILEVERSION 1,0,0,0
-	PRODUCTVERSION 1,2,1,0
+	PRODUCTVERSION 1,4,0,0
 	FILEFLAGSMASK VS_FFI_FILEFLAGSMASK
 #ifdef _DEBUG
 	FILEFLAGS VS_FF_DEBUG
@@ -29,7 +29,7 @@ BEGIN
 			VALUE "LegalCopyright", "Copyright © HeyheyEason"
 			VALUE "OriginalFilename", "Minesweeper.exe"
 			VALUE "ProductName", "Minesweeper"
-			VALUE "ProductVersion", "1.2.1"
+			VALUE "ProductVersion", "1.4.0"
 		END
 	END
 	BLOCK "VarFileInfo"

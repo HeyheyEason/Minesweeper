@@ -89,7 +89,7 @@ int main(int argc, char* argv[]) {
 
 	auto& audio = Mines::Audio::getInstance();
 	audio.loadSounds("../../rc/Audio/Sounds/");
-	Mines::UI ui(gui, "../../rc/Forms/", "1.2.1");
+	Mines::UI ui(gui, "../../rc/Forms/", "1.4.0");
 	Mines::System system;
 	Mines::Player player("Player", 0, 0);
 	Mines::Map map;
