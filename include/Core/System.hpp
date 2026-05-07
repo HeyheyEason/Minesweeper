@@ -8,6 +8,7 @@
 #include "Core/Map.hpp"
 #include "Core/Player.hpp"
 #include "Shell/UI.hpp"
+#include "Shell/Keyboard.hpp"
 
 namespace Mines {
 	enum class Result {
@@ -64,6 +65,7 @@ namespace Mines {
 		void resetTimer();
 
 	private:
+		Keyboard keyboard;
 		ControlMode current_mode = ControlMode::MOVE;
 		sf::Clock clock;
 		int difficulty = 1;

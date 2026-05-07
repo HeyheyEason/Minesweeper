@@ -54,6 +54,6 @@ if(HEADERS)
     source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/include" PREFIX "Header Files" FILES ${HEADERS})
 endif()
 
-add_executable(${PROJECT_NAME} ${ALL_FILES} "src/Shell/Keyboard.cpp")
+add_executable(${PROJECT_NAME} ${ALL_FILES})
 target_link_libraries(${PROJECT_NAME} tgui SFML::Audio SFML::System SFML::Window SFML::Main)
 set_target_properties(${PROJECT_NAME} PROPERTIES WIN32_EXECUTABLE $<NOT:$<CONFIG:Debug>>)

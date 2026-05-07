@@ -15,6 +15,7 @@ namespace Mines {
 	enum class Page {
 		MAIN_MENU,
 		SETTINGS,
+		KEYBOARD,
 		OPTIONS,
 		GAME,
 		PAUSE,

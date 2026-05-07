@@ -79,7 +79,7 @@ namespace Mines {
 		}
 
 		if (const auto* key_pressed = event.getIf<sf::Event::KeyPressed>()) {
-			if (key_pressed->code == sf::Keyboard::Key::Escape) {
+			if (key_pressed->scancode == keyboard.getKey("Pause")) {
 				playing = false;
 				clock.stop();
 				Audio::getInstance().playSound("Click", true);
@@ -87,7 +87,7 @@ namespace Mines {
 				return;
 			}
 
-			if (key_pressed->code == sf::Keyboard::Key::Space) {
+			if (key_pressed->scancode == keyboard.getKey("SwitchMode")) {
 				current_mode = (current_mode == ControlMode::MOVE) ? ControlMode::MARK : ControlMode::MOVE;
 				Audio::getInstance().playSound("Switch");
 				ui.setModeIndicator(static_cast<int>(current_mode));
@@ -99,24 +99,19 @@ namespace Mines {
 			int target_c = c;
 			MoveDirection dir;
 
-			switch (key_pressed->code) {
-			case sf::Keyboard::Key::W:
+			if (auto key = key_pressed->scancode; key == keyboard.getKey("MoveUp")) {
 				--target_r;
 				dir = MoveDirection::UP;
-				break;
-			case sf::Keyboard::Key::S:
+			} else if (key == keyboard.getKey("MoveDown")) {
 				++target_r;
 				dir = MoveDirection::DOWN;
-				break;
-			case sf::Keyboard::Key::A:
+			} else if (key == keyboard.getKey("MoveLeft")) {
 				--target_c;
 				dir = MoveDirection::LEFT;
-				break;
-			case sf::Keyboard::Key::D:
+			} else if (key == keyboard.getKey("MoveRight")) {
 				++target_c;
 				dir = MoveDirection::RIGHT;
-				break;
-			default:
+			} else {
 				return;
 			}
 

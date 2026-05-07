@@ -217,6 +217,7 @@ namespace Mines {
 	void UI::loadPages(const std::string& folder) {
 		pages[Page::MAIN_MENU] = tgui::Group::create();
 		pages[Page::SETTINGS] = tgui::Group::create();
+		pages[Page::KEYBOARD] = tgui::Group::create();
 		pages[Page::OPTIONS] = tgui::Group::create();
 		pages[Page::GAME] = tgui::Group::create();
 		pages[Page::PAUSE] = tgui::Group::create();
@@ -225,6 +226,7 @@ namespace Mines {
 		try {
 			pages[Page::MAIN_MENU]->loadWidgetsFromFile(folder + "MainMenu.txt");
 			pages[Page::SETTINGS]->loadWidgetsFromFile(folder + "Settings.txt");
+			pages[Page::KEYBOARD]->loadWidgetsFromFile(folder + "Keyboard.txt");
 			pages[Page::OPTIONS]->loadWidgetsFromFile(folder + "Options.txt");
 			pages[Page::GAME]->loadWidgetsFromFile(folder + "GamePage.txt");
 			pages[Page::PAUSE]->loadWidgetsFromFile(folder + "Pause.txt");
@@ -234,14 +236,8 @@ namespace Mines {
 			throw;
 		}
 
-		pages[Page::MAIN_MENU]->loadWidgetsFromFile(folder + "MainMenu.txt");
-		pages[Page::SETTINGS]->loadWidgetsFromFile(folder + "Settings.txt");
-		pages[Page::OPTIONS]->loadWidgetsFromFile(folder + "Options.txt");
-		pages[Page::GAME]->loadWidgetsFromFile(folder + "GamePage.txt");
-		pages[Page::PAUSE]->loadWidgetsFromFile(folder + "Pause.txt");
-		pages[Page::RESULT]->loadWidgetsFromFile(folder + "Result.txt");
-
 		pages[Page::SETTINGS]->setVisible(false);
+		pages[Page::KEYBOARD]->setVisible(false);
 		pages[Page::OPTIONS]->setVisible(false);
 		pages[Page::GAME]->setVisible(false);
 		pages[Page::PAUSE]->setVisible(false);
@@ -249,6 +245,7 @@ namespace Mines {
 
 		gui.add(pages[Page::MAIN_MENU]);
 		gui.add(pages[Page::SETTINGS]);
+		gui.add(pages[Page::KEYBOARD]);
 		gui.add(pages[Page::OPTIONS]);
 		gui.add(pages[Page::GAME]);
 		gui.add(pages[Page::PAUSE]);

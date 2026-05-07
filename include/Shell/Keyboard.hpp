@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core/Table.hpp"
+#include <utility>
 #include <map>
 #include <TGUI/Backend/SFML-Graphics.hpp>
 
@@ -10,14 +11,15 @@ namespace Mines {
 		Keyboard();
 
 		void setCurrentAction(const std::string& action);
-		void bind(sf::Keyboard::Key key);
+		std::pair<std::string, std::string> bind(sf::Keyboard::Scancode key);
 		bool isBinding() const;
+		sf::Keyboard::Scancode getKey(const std::string& action) const;
 
 	private:
-		std::map<std::string, sf::Keyboard::Key> keys;
+		std::map<std::string, sf::Keyboard::Scancode> keys;
 		bool is_binding = false;
 		std::string current_action;
 
-		std::string toString(sf::Keyboard::Key key);
+		std::string toString(sf::Keyboard::Scancode key);
 	};
 } // namespace Mines
