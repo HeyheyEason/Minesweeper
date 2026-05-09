@@ -72,8 +72,21 @@ namespace Mines {
 		const sf::Event& event,
 		Player& player,
 		Map& map,
-		UI& ui
+		UI& ui,
+		Keyboard& keyboard
 	) {
+		if (keyboard.isBinding()) {
+			if (const auto* key_pressed = event.getIf<sf::Event::KeyPressed>()) {
+				auto [action, key] = keyboard.bind(key_pressed->scancode);
+				
+				if (!action.empty()) {
+					ui.updateKeyboardDisplay(action, key);
+				}
+			}
+
+			return;
+		}
+
 		if (!playing) {
 			return;
 		}

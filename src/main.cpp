@@ -6,6 +6,7 @@
 #include <filesystem>
 #include "Shell/UI.hpp"
 #include "Shell/Audio.hpp"
+#include "Shell/Keyboard.hpp"
 #include "Core/System.hpp"
 #include "Core/Player.hpp"
 #include "Core/Map.hpp"
@@ -89,7 +90,8 @@ int main(int argc, char* argv[]) {
 
 	auto& audio = Mines::Audio::getInstance();
 	audio.loadSounds("../../rc/Audio/Sounds/");
-	Mines::UI ui(gui, "../../rc/Forms/", "1.4.0");
+	Mines::UI ui(gui, "../../rc/Forms/", "1.5.0");
+	Mines::Keyboard keyboard;
 	Mines::System system;
 	Mines::Player player("Player", 0, 0);
 	Mines::Map map;
@@ -114,6 +116,14 @@ int main(int argc, char* argv[]) {
 		system.stopGame(res, player, map, ui);
 	};
 
+	ui.bridge.bind_action = [&](const std::string& action) {
+		keyboard.setCurrentAction(action);
+	};
+
+	ui.bridge.is_binding = [&]() {
+		return keyboard.isBinding();
+	};
+
 	while (window.isOpen()) {
 		while (auto event = window.pollEvent()) {
 			if (event->is<sf::Event::Closed>()) {
@@ -121,10 +131,7 @@ int main(int argc, char* argv[]) {
 			}
 
 			gui.handleEvent(*event);
-
-			if (system.isPlaying()) {
-				system.handleInput(*event, player, map, ui);
-			}
+			system.handleInput(*event, player, map, ui, keyboard);
 		}
 
 		if (system.isPlaying()) {

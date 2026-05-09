@@ -1,8 +1,8 @@
 # Minesweeper
 
-![Version](https://img.shields.io/badge/version-1.2.1-blue.svg)
+![Version](https://img.shields.io/badge/version-1.5.0-blue.svg)
 ![C++](https://img.shields.io/badge/C++-20-orange.svg)
-![License](https://img.shields.io/badge/license-MIT-green.svg)
+![License](https://img.shields.io/badge/license-Source%20Available-green.svg)
 
 A modern, high-performance Minesweeper implementation built with **C++20**. This project combines classic gameplay with a refined technical architecture, featuring a custom keyboard-driven navigation system and a modern UI.
 
@@ -14,13 +14,13 @@ A modern, high-performance Minesweeper implementation built with **C++20**. This
 * **First-Click Guarantee**: Optimized algorithm to ensure the first cell opened is never a mine.
 * **Industrial-Grade Development**: Developed using **Visual Studio 2026** with a modular **CMake** configuration for professional project management.
 
-## 🎮 Controls
+## 🎮 Default Controls
 
 | Action | Keyboard |
 | :---   | :--- |
 | **Move Cursor** | `W`, `A`, `S`, `D` |
 | **Open Cell** | Automatic on move |
-| **Toggle Mode (Move/Flag)** | `Space` |
+| **Switch Mode (Move/Flag)** | `Space` |
 | **Pause Game** | `Esc` |
 
 ## 🛠 Tech Stack
@@ -28,7 +28,7 @@ A modern, high-performance Minesweeper implementation built with **C++20**. This
 * **Language**: C++20
 * **Frameworks**: 
     * [SFML 3.0](https://www.sfml-dev.org/) (Multimedia & Input)
-    * [TGUI 1.x](https://tgui.eu/) (User Interface)
+    * [TGUI 1.12](https://tgui.eu/) (User Interface)
 * **Build System**: CMake 3.12+
 * **IDE**: Visual Studio 2022+
 
@@ -67,4 +67,5 @@ Ensure you have the following installed and configured:
 
 ## 📝 License
 
-This project is licensed under the [MIT License](LICENSE.txt).
+This is a source-available project.  
+Copyright © 2026 HeyheyEason. All rights reserved.

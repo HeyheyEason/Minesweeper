@@ -14,6 +14,7 @@ namespace Mines {
 
 	void Keyboard::setCurrentAction(const std::string& action) {
 		current_action = action;
+		is_binding = true;
 	}
 
 	std::pair<std::string, std::string> Keyboard::bind(sf::Keyboard::Scancode key) {
@@ -26,7 +27,7 @@ namespace Mines {
 			is_binding = false;
 			return { current_action, toString(key) };
 		} else {
-			LOG_ERROR("Cannot bind the same key to {}.", current_action);
+			LOG_WARN("Cannot bind the same key to {}.", current_action);
 			return { "", "" };
 		}
 	}
@@ -59,7 +60,7 @@ namespace Mines {
 		}
 
 		if (key >= Numpad1 && key <= Numpad9) {
-			return "Num " + std::string(1, (static_cast<int>(key) - static_cast<int>(Num1)));
+			return "Num " + std::string(1, '1' + (static_cast<int>(key) - static_cast<int>(Numpad1)));
 		} else if (key == Numpad0) {
 			return "Num 0";
 		}
@@ -69,10 +70,20 @@ namespace Mines {
 		}
 		
 		switch (key) {
+			case Up:
+				return "Up Arrow";
+			case Down:
+				return "Down Arrow";
+			case Left:
+				return "Left Arrow";
+			case Right:
+				return "Right Arrow";
 			case Space:    
 				return "Space";
 			case Enter:    
 				return "Enter";
+			case NumpadEnter:
+				return "Num Enter";
 			case Escape:   
 				return "Esc";
 			case LControl: 

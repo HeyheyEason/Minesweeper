@@ -29,6 +29,7 @@ namespace Mines {
 		void handleError();
 		void switchPage(Page page);
 		void setGameVersion(const std::string& version);
+		void updateKeyboardDisplay(const std::string& action, const std::string& key);
 		void setModeIndicator(int mode);
 		void updateTimerDisplay(int total_seconds);
 		void updateGamePage(const Map& map, const Player& player);

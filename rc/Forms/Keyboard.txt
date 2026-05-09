@@ -256,8 +256,8 @@ Label.PauseLabel {
 
 Button.MoveUpButton {
     MouseCursor = Hand;
-    Position = (1110, 280);
-    Size = (232, 53);
+    Position = (1090, 280);
+    Size = (272, 53);
     Text = W;
     TextSize = 36;
 
@@ -280,8 +280,8 @@ Button.MoveUpButton {
 
 Button.MoveDownButton {
     MouseCursor = Hand;
-    Position = (1110, 360);
-    Size = (232, 53);
+    Position = (1090, 360);
+    Size = (272, 53);
     Text = S;
     TextSize = 36;
 
@@ -304,36 +304,36 @@ Button.MoveDownButton {
 
 Button.MoveLeftButton {
     MouseCursor = Hand;
-    Position = (1110, 440);
+    Position = (1090, 440);
     Renderer = &2;
-    Size = (232, 53);
+    Size = (272, 53);
     Text = A;
     TextSize = 36;
 }
 
 Button.MoveRightButton {
     MouseCursor = Hand;
-    Position = (1110, 520);
+    Position = (1090, 520);
     Renderer = &2;
-    Size = (232, 53);
+    Size = (272, 53);
     Text = D;
     TextSize = 36;
 }
 
 Button.SwitchModeButton {
     MouseCursor = Hand;
-    Position = (1110, 600);
+    Position = (1090, 600);
     Renderer = &2;
-    Size = (232, 53);
+    Size = (272, 53);
     Text = Space;
     TextSize = 36;
 }
 
 Button.PauseButton {
     MouseCursor = Hand;
-    Position = (1110, 680);
+    Position = (1090, 680);
     Renderer = &2;
-    Size = (232, 53);
+    Size = (272, 53);
     Text = Esc;
     TextSize = 36;
 }

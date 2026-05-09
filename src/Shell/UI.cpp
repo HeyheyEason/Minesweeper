@@ -64,6 +64,16 @@ namespace Mines {
 		version_label->setText("Version " + version);
 	}
 
+	void UI::updateKeyboardDisplay(const std::string& action, const std::string& key) {
+		auto action_label = pages[Page::KEYBOARD]->get<tgui::Label>(action + "Label");
+		auto action_button = pages[Page::KEYBOARD]->get<tgui::Button>(action + "Button");
+		auto save_button = pages[Page::KEYBOARD]->get<tgui::Button>("SaveButton");
+
+		action_label->getRenderer()->setTextColor(tgui::Color::Green);
+		action_button->setText(key);
+		save_button->setEnabled(true);
+	}
+
 	void UI::setModeIndicator(int mode) {
 		auto mode_label = pages[Page::GAME]->get<tgui::Label>("ControlModeLabel");
 
@@ -293,6 +303,7 @@ namespace Mines {
 
 			auto save_button = pages[Page::SETTINGS]->get<tgui::Button>("SaveButton");
 			auto reset_button = pages[Page::SETTINGS]->get<tgui::Button>("ResetButton");
+			auto keyboard_button = pages[Page::SETTINGS]->get<tgui::Button>("KeyboardButton");
 			auto music_volume_slider = pages[Page::SETTINGS]->get<tgui::Slider>("MusicVolumeSlider");
 			auto sound_volume_slider = pages[Page::SETTINGS]->get<tgui::Slider>("SoundVolumeSlider");
 			auto fps_limit_slider = pages[Page::SETTINGS]->get<tgui::Slider>("FpsLimitSlider");
@@ -355,6 +366,14 @@ namespace Mines {
 				}
 			);
 
+			keyboard_button->onPress(
+				[this]() {
+					LOG_INFO("Keyboard button clicked.");
+					Audio::getInstance().playSound("Click", true);
+					switchPage(Page::KEYBOARD);
+				}
+			);
+
 			music_volume_slider->onValueChange(
 				[this](float value) {
 					LOG_INFO("Music volume changed to {}.", value);
@@ -384,6 +403,128 @@ namespace Mines {
 		} catch (const tgui::Exception& e) {
 			LOG_ERROR("Failed to bind Settings UI callbacks: {}", e.what());
 			throw;
+		}
+
+		try {
+			auto move_up_button = pages[Page::KEYBOARD]->get<tgui::Button>("MoveUpButton");
+			auto move_down_button = pages[Page::KEYBOARD]->get<tgui::Button>("MoveDownButton");
+			auto move_left_button = pages[Page::KEYBOARD]->get<tgui::Button>("MoveLeftButton");
+			auto move_right_button = pages[Page::KEYBOARD]->get<tgui::Button>("MoveRightButton");
+			auto switch_mode_button = pages[Page::KEYBOARD]->get<tgui::Button>("SwitchModeButton");
+			auto pause_button = pages[Page::KEYBOARD]->get<tgui::Button>("PauseButton");
+			auto save_button = pages[Page::KEYBOARD]->get<tgui::Button>("SaveButton");
+
+			move_up_button->onPress(
+				[this]() {
+					LOG_INFO("MoveUp button clicked.");
+					Audio::getInstance().playSound("Click", true);
+
+					if (bridge.is_binding()) {
+						return;
+					}
+
+					auto save_btn = pages[Page::KEYBOARD]->get<tgui::Button>("SaveButton");
+					auto move_up_label = pages[Page::KEYBOARD]->get<tgui::Label>("MoveUpLabel");
+					move_up_label->getRenderer()->setTextColor(tgui::Color::Red);
+					bridge.bind_action("MoveUp");
+					save_btn->setEnabled(false);
+				}
+			);
+
+			move_down_button->onPress(
+				[this]() {
+					LOG_INFO("MoveDown button clicked.");
+					Audio::getInstance().playSound("Click", true);
+
+					if (bridge.is_binding()) {
+						return;
+					}
+
+					auto save_btn = pages[Page::KEYBOARD]->get<tgui::Button>("SaveButton");
+					auto move_down_label = pages[Page::KEYBOARD]->get<tgui::Label>("MoveDownLabel");
+					move_down_label->getRenderer()->setTextColor(tgui::Color::Red);
+					bridge.bind_action("MoveDown");
+					save_btn->setEnabled(false);
+				}
+			);
+
+			move_left_button->onPress(
+				[this]() {
+					LOG_INFO("MoveLeft button clicked.");
+					Audio::getInstance().playSound("Click", true);
+
+					if (bridge.is_binding()) {
+						return;
+					}
+
+					auto save_btn = pages[Page::KEYBOARD]->get<tgui::Button>("SaveButton");
+					auto move_left_label = pages[Page::KEYBOARD]->get<tgui::Label>("MoveLeftLabel");
+					move_left_label->getRenderer()->setTextColor(tgui::Color::Red);
+					bridge.bind_action("MoveLeft");
+					save_btn->setEnabled(false);
+				}
+			);
+
+			move_right_button->onPress(
+				[this]() {
+					LOG_INFO("MoveRight button clicked.");
+					Audio::getInstance().playSound("Click", true);
+
+					if (bridge.is_binding()) {
+						return;
+					}
+
+					auto save_btn = pages[Page::KEYBOARD]->get<tgui::Button>("SaveButton");
+					auto move_right_label = pages[Page::KEYBOARD]->get<tgui::Label>("MoveRightLabel");
+					move_right_label->getRenderer()->setTextColor(tgui::Color::Red);
+					bridge.bind_action("MoveRight");
+					save_btn->setEnabled(false);
+				}
+			);
+
+			switch_mode_button->onPress(
+				[this]() {
+					LOG_INFO("SwitchMode button clicked.");
+					Audio::getInstance().playSound("Click", true);
+
+					if (bridge.is_binding()) {
+						return;
+					}
+
+					auto save_btn = pages[Page::KEYBOARD]->get<tgui::Button>("SaveButton");
+					auto switch_mode_label = pages[Page::KEYBOARD]->get<tgui::Label>("SwitchModeLabel");
+					switch_mode_label->getRenderer()->setTextColor(tgui::Color::Red);
+					bridge.bind_action("SwitchMode");
+					save_btn->setEnabled(false);
+				}
+			);
+
+			pause_button->onPress(
+				[this]() {
+					LOG_INFO("Pause button clicked.");
+					Audio::getInstance().playSound("Click", true);
+
+					if (bridge.is_binding()) {
+						return;
+					}
+
+					auto save_btn = pages[Page::KEYBOARD]->get<tgui::Button>("SaveButton");
+					auto pause_label = pages[Page::KEYBOARD]->get<tgui::Label>("PauseLabel");
+					pause_label->getRenderer()->setTextColor(tgui::Color::Red);
+					bridge.bind_action("Pause");
+					save_btn->setEnabled(false);
+				}
+			);
+
+			save_button->onPress(
+				[this]() {
+					LOG_INFO("Save button clicked.");
+					Audio::getInstance().playSound("Click", true);
+					switchPage(Page::SETTINGS);
+				}
+			);
+		} catch (const tgui::Exception& e) {
+			LOG_ERROR("Failed to bind Keyboard UI: {}", e.what());
 		}
 
 		try {

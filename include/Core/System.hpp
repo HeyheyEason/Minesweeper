@@ -49,7 +49,8 @@ namespace Mines {
 			const sf::Event& event,
 			Player& player,
 			Map& map,
-			UI& ui
+			UI& ui,
+			Keyboard& keyboard
 		);
 
 		void updateTimer(
@@ -65,7 +66,6 @@ namespace Mines {
 		void resetTimer();
 
 	private:
-		Keyboard keyboard;
 		ControlMode current_mode = ControlMode::MOVE;
 		sf::Clock clock;
 		int difficulty = 1;
