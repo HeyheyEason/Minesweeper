@@ -68,96 +68,96 @@ namespace Mines {
 		);
 	}
 
-	void System::handleInput(
-		const sf::Event& event,
-		Player& player,
-		Map& map,
-		UI& ui,
-		Keyboard& keyboard
-	) {
-		if (keyboard.isBinding()) {
-			if (const auto* key_pressed = event.getIf<sf::Event::KeyPressed>()) {
-				auto [action, key] = keyboard.bind(key_pressed->scancode);
-				
-				if (!action.empty()) {
-					ui.updateKeyboardDisplay(action, key);
-				}
-			}
+	void System::handleMessages(Player& player, Map& map, UI& ui) {
+		for (auto msg = ui.pollMessage(); msg.type != MessageType::NULL_MSG; msg = ui.pollMessage()) {
+			const MessageType current_type = msg.type;
+			bool should_return = false;
 
-			return;
-		}
+			std::visit(
+				[this, current_type, &should_return, &player, &map, &ui](auto&& arg) {
+					using T = std::decay_t<decltype(arg)>;
 
-		if (!playing) {
-			return;
-		}
+					if constexpr (std::is_same_v<T, Data::StartGame>) {
+						startGame(arg.player_name, arg.x, arg.y, arg.df_index, player, map, ui);
+					} else if constexpr (std::is_same_v<T, Data::StopGame>) {
+						stopGame(arg.result, player, map, ui);
+					} else if constexpr (std::is_same_v<T, Data::Null>) {
+						switch (current_type) {
+							case MessageType::PAUSE_GAME:
+								playing = false;
+								clock.stop();
+								should_return = true;
+								return;
+							case MessageType::RESUME_GAME:
+								resumeGame();
+								should_return = true;
+								return;
+							case MessageType::PLAYER_SWITCH_MODE:
+								current_mode = (current_mode == ControlMode::MOVE) ? ControlMode::MARK : ControlMode::MOVE;
+								ui.setModeIndicator(static_cast<int>(current_mode));
+								should_return = true;
+								return;
+						}
 
-		if (const auto* key_pressed = event.getIf<sf::Event::KeyPressed>()) {
-			if (key_pressed->scancode == keyboard.getKey("Pause")) {
-				playing = false;
-				clock.stop();
-				Audio::getInstance().playSound("Click", true);
-				ui.switchPage(Page::PAUSE);
+						auto [r, c] = player.getPosition();
+						int target_r = r;
+						int target_c = c;
+						MoveDirection dir;
+
+						switch (current_type) {
+							case MessageType::PLAYER_PRESS_UP:
+								--target_r;
+								dir = MoveDirection::UP;
+								break;
+							case MessageType::PLAYER_PRESS_DOWN:
+								++target_r;
+								dir = MoveDirection::DOWN;
+								break;
+							case MessageType::PLAYER_PRESS_LEFT:
+								--target_c;
+								dir = MoveDirection::LEFT;
+								break;
+							case MessageType::PLAYER_PRESS_RIGHT:
+								++target_c;
+								dir = MoveDirection::RIGHT;
+								break;
+							default:
+								should_return = true;
+								return;
+						}
+
+						Result game_state = Result::ONGOING;
+
+						if (current_mode == ControlMode::MOVE) {
+							if (player.move(map, dir)) {
+								Audio::getInstance().playSound("Move", true);
+							}
+
+							game_state = checkGameState(player, map);
+						} else if (current_mode == ControlMode::MARK) {
+							if (player.toggleMark(map.grid, target_r, target_c)) {
+								Audio::getInstance().playSound("Mark", true);
+							}
+						}
+
+						if (game_state != Result::ONGOING) {
+							stopGame(
+								game_state == Result::WIN ? "Win" : "Lose",
+								player, map, ui
+							);
+						}
+					}
+				},
+				msg.data
+			);
+
+			if (should_return) {
 				return;
 			}
-
-			if (key_pressed->scancode == keyboard.getKey("SwitchMode")) {
-				current_mode = (current_mode == ControlMode::MOVE) ? ControlMode::MARK : ControlMode::MOVE;
-				Audio::getInstance().playSound("Switch");
-				ui.setModeIndicator(static_cast<int>(current_mode));
-				return;
-			}
-
-			auto [r, c] = player.getPosition();
-			int target_r = r;
-			int target_c = c;
-			MoveDirection dir;
-
-			if (auto key = key_pressed->scancode; key == keyboard.getKey("MoveUp")) {
-				--target_r;
-				dir = MoveDirection::UP;
-			} else if (key == keyboard.getKey("MoveDown")) {
-				++target_r;
-				dir = MoveDirection::DOWN;
-			} else if (key == keyboard.getKey("MoveLeft")) {
-				--target_c;
-				dir = MoveDirection::LEFT;
-			} else if (key == keyboard.getKey("MoveRight")) {
-				++target_c;
-				dir = MoveDirection::RIGHT;
-			} else {
-				return;
-			}
-
-			Result game_state = Result::ONGOING;
-
-			if (current_mode == ControlMode::MOVE) {
-				if (player.move(map, dir)) {
-					Audio::getInstance().playSound("Move", true);
-				}
-
-				game_state = checkGameState(player, map);
-			} else if (current_mode == ControlMode::MARK) {
-				if (player.toggleMark(map.grid, target_r, target_c)) {
-					Audio::getInstance().playSound("Mark", true);
-				}
-			}
-
-			if (game_state != Result::ONGOING) {
-				stopGame(
-					game_state == Result::WIN ? "Win" : "Lose",
-					player, map, ui
-				);
-
-				return;
-			}
-
-			ui.updateGamePage(map, player);
 		}
 	}
 
-	void System::updateTimer(
-		UI& ui
-	) {
+	void System::updateTimer(UI& ui) {
 		sf::Time elapsed = clock.getElapsedTime();
 		ui.updateTimerDisplay(static_cast<int>(elapsed.asSeconds()));
 	}

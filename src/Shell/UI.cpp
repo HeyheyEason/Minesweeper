@@ -1,6 +1,7 @@
 #include "Core/Table.hpp"
 #include "Shell/UI.hpp"
 #include "Shell/Audio.hpp"
+#include "Shell/Keyboard.hpp"
 #include "Utilities/Randomizer.hpp"
 #include "Utilities/Log.hpp"
 #include "Utilities/Definitions.hpp"
@@ -68,10 +69,12 @@ namespace Mines {
 		auto action_label = pages[Page::KEYBOARD]->get<tgui::Label>(action + "Label");
 		auto action_button = pages[Page::KEYBOARD]->get<tgui::Button>(action + "Button");
 		auto save_button = pages[Page::KEYBOARD]->get<tgui::Button>("SaveButton");
+		auto reset_button = pages[Page::KEYBOARD]->get<tgui::Button>("ResetButton");
 
 		action_label->getRenderer()->setTextColor(tgui::Color::Green);
 		action_button->setText(key);
 		save_button->setEnabled(true);
+		reset_button->setEnabled(true);
 	}
 
 	void UI::setModeIndicator(int mode) {
@@ -222,6 +225,57 @@ namespace Mines {
 		mark_count_label->setText("Mark Count: " + std::to_string(player.getMarkCount()));
 		total_time_label->setText("Total Time: " + total_time.str());
 		rank_label->setText(getRank());
+	}
+
+	Keyboard& UI::getKeyboard() {
+		return keyboard;
+	}
+
+	Message UI::pollMessage() {
+		if (!message_queue.empty()) {
+			Message msg = message_queue.front();
+			message_queue.pop();
+			return msg;
+		} else {
+			return { MessageType::NULL_MSG, Data::Null() };
+		}
+	}
+
+	void UI::handleInput(const sf::Event& event, bool is_playing) {
+		if (keyboard.isBinding()) {
+			if (const auto* key_pressed = event.getIf<sf::Event::KeyPressed>()) {
+				auto [action, key] = keyboard.bind(key_pressed->scancode);
+
+				if (!action.empty()) {
+					updateKeyboardDisplay(action, key);
+				}
+			}
+
+			return;
+		}
+
+		if (!is_playing) {
+			return;
+		}
+
+		if (const auto* key_pressed = event.getIf<sf::Event::KeyPressed>()) {
+			if (auto key = key_pressed->scancode; key == keyboard.getKey("Pause")) {
+				message_queue.push({ MessageType::PAUSE_GAME, Data::Null() });
+				Audio::getInstance().playSound("Click", true);
+				switchPage(Page::PAUSE);
+			} else if (key == keyboard.getKey("SwitchMode")) {
+				message_queue.push({ MessageType::PLAYER_SWITCH_MODE, Data::Null() });
+				Audio::getInstance().playSound("Switch");
+			} else if (key == keyboard.getKey("MoveUp")) {
+				message_queue.push({ MessageType::PLAYER_PRESS_UP, Data::Null() });
+			} else if (key == keyboard.getKey("MoveDown")) {
+				message_queue.push({ MessageType::PLAYER_PRESS_DOWN, Data::Null() });
+			} else if (key == keyboard.getKey("MoveLeft")) {
+				message_queue.push({ MessageType::PLAYER_PRESS_LEFT, Data::Null() });
+			} else if (key == keyboard.getKey("MoveRight")) {
+				message_queue.push({ MessageType::PLAYER_PRESS_RIGHT, Data::Null() });
+			}
+		}
 	}
 
 	void UI::loadPages(const std::string& folder) {
@@ -413,21 +467,31 @@ namespace Mines {
 			auto switch_mode_button = pages[Page::KEYBOARD]->get<tgui::Button>("SwitchModeButton");
 			auto pause_button = pages[Page::KEYBOARD]->get<tgui::Button>("PauseButton");
 			auto save_button = pages[Page::KEYBOARD]->get<tgui::Button>("SaveButton");
+			auto reset_button = pages[Page::KEYBOARD]->get<tgui::Button>("ResetButton");
+
+			move_up_button->setText(Keyboard::toString(keyboard.getKey("MoveUp")));
+			move_down_button->setText(Keyboard::toString(keyboard.getKey("MoveDown")));
+			move_left_button->setText(Keyboard::toString(keyboard.getKey("MoveLeft")));
+			move_right_button->setText(Keyboard::toString(keyboard.getKey("MoveRight")));
+			switch_mode_button->setText(Keyboard::toString(keyboard.getKey("SwitchMode")));
+			pause_button->setText(Keyboard::toString(keyboard.getKey("Pause")));
 
 			move_up_button->onPress(
 				[this]() {
 					LOG_INFO("MoveUp button clicked.");
 					Audio::getInstance().playSound("Click", true);
 
-					if (bridge.is_binding()) {
+					if (keyboard.isBinding()) {
 						return;
 					}
 
 					auto save_btn = pages[Page::KEYBOARD]->get<tgui::Button>("SaveButton");
+					auto reset_btn = pages[Page::KEYBOARD]->get<tgui::Button>("ResetButton");
 					auto move_up_label = pages[Page::KEYBOARD]->get<tgui::Label>("MoveUpLabel");
 					move_up_label->getRenderer()->setTextColor(tgui::Color::Red);
-					bridge.bind_action("MoveUp");
+					keyboard.setCurrentAction("MoveUp");
 					save_btn->setEnabled(false);
+					reset_btn->setEnabled(false);
 				}
 			);
 
@@ -436,15 +500,17 @@ namespace Mines {
 					LOG_INFO("MoveDown button clicked.");
 					Audio::getInstance().playSound("Click", true);
 
-					if (bridge.is_binding()) {
+					if (keyboard.isBinding()) {
 						return;
 					}
 
 					auto save_btn = pages[Page::KEYBOARD]->get<tgui::Button>("SaveButton");
+					auto reset_btn = pages[Page::KEYBOARD]->get<tgui::Button>("ResetButton");
 					auto move_down_label = pages[Page::KEYBOARD]->get<tgui::Label>("MoveDownLabel");
 					move_down_label->getRenderer()->setTextColor(tgui::Color::Red);
-					bridge.bind_action("MoveDown");
+					keyboard.setCurrentAction("MoveDown");
 					save_btn->setEnabled(false);
+					reset_btn->setEnabled(false);
 				}
 			);
 
@@ -453,15 +519,17 @@ namespace Mines {
 					LOG_INFO("MoveLeft button clicked.");
 					Audio::getInstance().playSound("Click", true);
 
-					if (bridge.is_binding()) {
+					if (keyboard.isBinding()) {
 						return;
 					}
 
 					auto save_btn = pages[Page::KEYBOARD]->get<tgui::Button>("SaveButton");
+					auto reset_btn = pages[Page::KEYBOARD]->get<tgui::Button>("ResetButton");
 					auto move_left_label = pages[Page::KEYBOARD]->get<tgui::Label>("MoveLeftLabel");
 					move_left_label->getRenderer()->setTextColor(tgui::Color::Red);
-					bridge.bind_action("MoveLeft");
+					keyboard.setCurrentAction("MoveLeft");
 					save_btn->setEnabled(false);
+					reset_btn->setEnabled(false);
 				}
 			);
 
@@ -470,15 +538,17 @@ namespace Mines {
 					LOG_INFO("MoveRight button clicked.");
 					Audio::getInstance().playSound("Click", true);
 
-					if (bridge.is_binding()) {
+					if (keyboard.isBinding()) {
 						return;
 					}
 
 					auto save_btn = pages[Page::KEYBOARD]->get<tgui::Button>("SaveButton");
+					auto reset_btn = pages[Page::KEYBOARD]->get<tgui::Button>("ResetButton");
 					auto move_right_label = pages[Page::KEYBOARD]->get<tgui::Label>("MoveRightLabel");
 					move_right_label->getRenderer()->setTextColor(tgui::Color::Red);
-					bridge.bind_action("MoveRight");
+					keyboard.setCurrentAction("MoveRight");
 					save_btn->setEnabled(false);
+					reset_btn->setEnabled(false);
 				}
 			);
 
@@ -487,15 +557,17 @@ namespace Mines {
 					LOG_INFO("SwitchMode button clicked.");
 					Audio::getInstance().playSound("Click", true);
 
-					if (bridge.is_binding()) {
+					if (keyboard.isBinding()) {
 						return;
 					}
 
 					auto save_btn = pages[Page::KEYBOARD]->get<tgui::Button>("SaveButton");
+					auto reset_btn = pages[Page::KEYBOARD]->get<tgui::Button>("ResetButton");
 					auto switch_mode_label = pages[Page::KEYBOARD]->get<tgui::Label>("SwitchModeLabel");
 					switch_mode_label->getRenderer()->setTextColor(tgui::Color::Red);
-					bridge.bind_action("SwitchMode");
+					keyboard.setCurrentAction("SwitchMode");
 					save_btn->setEnabled(false);
+					reset_btn->setEnabled(false);
 				}
 			);
 
@@ -504,15 +576,17 @@ namespace Mines {
 					LOG_INFO("Pause button clicked.");
 					Audio::getInstance().playSound("Click", true);
 
-					if (bridge.is_binding()) {
+					if (keyboard.isBinding()) {
 						return;
 					}
 
 					auto save_btn = pages[Page::KEYBOARD]->get<tgui::Button>("SaveButton");
+					auto reset_btn = pages[Page::KEYBOARD]->get<tgui::Button>("ResetButton");
 					auto pause_label = pages[Page::KEYBOARD]->get<tgui::Label>("PauseLabel");
 					pause_label->getRenderer()->setTextColor(tgui::Color::Red);
-					bridge.bind_action("Pause");
+					keyboard.setCurrentAction("Pause");
 					save_btn->setEnabled(false);
+					reset_btn->setEnabled(false);
 				}
 			);
 
@@ -520,11 +594,35 @@ namespace Mines {
 				[this]() {
 					LOG_INFO("Save button clicked.");
 					Audio::getInstance().playSound("Click", true);
+					keyboard.saveKeys();
 					switchPage(Page::SETTINGS);
 				}
 			);
-		} catch (const tgui::Exception& e) {
+
+			reset_button->onPress(
+				[this]() {
+					LOG_INFO("Reset button clicked.");
+					Audio::getInstance().playSound("Click", true);
+					keyboard.reset();
+
+					auto move_up_button = pages[Page::KEYBOARD]->get<tgui::Button>("MoveUpButton");
+					auto move_down_button = pages[Page::KEYBOARD]->get<tgui::Button>("MoveDownButton");
+					auto move_left_button = pages[Page::KEYBOARD]->get<tgui::Button>("MoveLeftButton");
+					auto move_right_button = pages[Page::KEYBOARD]->get<tgui::Button>("MoveRightButton");
+					auto switch_mode_button = pages[Page::KEYBOARD]->get<tgui::Button>("SwitchModeButton");
+					auto pause_button = pages[Page::KEYBOARD]->get<tgui::Button>("PauseButton");
+
+					move_up_button->setText(Keyboard::toString(keyboard.getKey("MoveUp")));
+					move_down_button->setText(Keyboard::toString(keyboard.getKey("MoveDown")));
+					move_left_button->setText(Keyboard::toString(keyboard.getKey("MoveLeft")));
+					move_right_button->setText(Keyboard::toString(keyboard.getKey("MoveRight")));
+					switch_mode_button->setText(Keyboard::toString(keyboard.getKey("SwitchMode")));
+					pause_button->setText(Keyboard::toString(keyboard.getKey("Pause")));
+				}
+			);
+		} catch (const std::exception& e) {
 			LOG_ERROR("Failed to bind Keyboard UI: {}", e.what());
+			throw;
 		}
 
 		try {
@@ -549,11 +647,12 @@ namespace Mines {
 					auto start_x_input = pages[Page::OPTIONS]->get<tgui::EditBox>("StartPosXEditBox");
 					auto start_y_input = pages[Page::OPTIONS]->get<tgui::EditBox>("StartPosYEditBox");
 
-					std::string player_name = name_input->getText().toStdString();
-					int df_index = df_dropdown->getSelectedItemIndex();
-					int start_x = start_x_input->getText().toInt(Randomizer::getInstance().getInt(0, 15));
-					int start_y = start_y_input->getText().toInt(Randomizer::getInstance().getInt(0, 15));
-					bridge.start_game(player_name, start_x, start_y, df_index);
+					Data::StartGame info;
+					info.player_name = name_input->getText().toStdString();
+					info.df_index = df_dropdown->getSelectedItemIndex();
+					info.x = start_x_input->getText().toInt(Randomizer::getInstance().getInt(0, 15));
+					info.y = start_y_input->getText().toInt(Randomizer::getInstance().getInt(0, 15));
+					message_queue.push({ MessageType::START_GAME, info });
 
 					switchPage(Page::GAME);
 
@@ -607,7 +706,7 @@ namespace Mines {
 					LOG_INFO("Resume button clicked.");
 					Audio::getInstance().playSound("Click", true);
 					switchPage(Page::GAME);
-					bridge.resume_game();
+					message_queue.push({ MessageType::RESUME_GAME, Data::Null() });
 				}
 			);
 
@@ -616,7 +715,10 @@ namespace Mines {
 					LOG_INFO("Give Up button clicked.");
 					Audio::getInstance().playSound("Click", true);
 					switchPage(Page::GAME);
-					bridge.stop_game("Lose");
+					
+					Data::StopGame info;
+					info.result = "Lose";
+					message_queue.push({ MessageType::STOP_GAME, info });
 				}
 			);
 

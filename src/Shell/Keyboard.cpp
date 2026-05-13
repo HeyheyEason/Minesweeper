@@ -1,15 +1,19 @@
 #include "Shell/Keyboard.hpp"
+#include "Core/Table.hpp"
 #include "Utilities/Log.hpp"
 #include <ranges>
 
 namespace Mines {
 	Keyboard::Keyboard() {
-		keys["MoveUp"] = sf::Keyboard::Scancode::W;
-		keys["MoveDown"] = sf::Keyboard::Scancode::S;
-		keys["MoveLeft"] = sf::Keyboard::Scancode::A;
-		keys["MoveRight"] = sf::Keyboard::Scancode::D;
-		keys["SwitchMode"] = sf::Keyboard::Scancode::Space;
-		keys["Pause"] = sf::Keyboard::Scancode::Escape;
+		Table table;
+		table.load("../../data/Config/KeyboardBinding.cfg");
+
+		keys["MoveUp"] = static_cast<sf::Keyboard::Scancode>(table.get<int>("MoveUp", 22));
+		keys["MoveDown"] = static_cast<sf::Keyboard::Scancode>(table.get<int>("MoveDown", 18));
+		keys["MoveLeft"] = static_cast<sf::Keyboard::Scancode>(table.get<int>("MoveLeft", 0));
+		keys["MoveRight"] = static_cast<sf::Keyboard::Scancode>(table.get<int>("MoveRight", 3));
+		keys["SwitchMode"] = static_cast<sf::Keyboard::Scancode>(table.get<int>("SwitchMode", 40));
+		keys["Pause"] = static_cast<sf::Keyboard::Scancode>(table.get<int>("Pause", 37));
 	}
 
 	void Keyboard::setCurrentAction(const std::string& action) {
@@ -44,6 +48,25 @@ namespace Mines {
 		} else {
 			return sf::Keyboard::Scancode::Unknown;
 		}
+	}
+
+	void Keyboard::saveKeys() const {
+		Table table;
+
+		for (const auto& [action, key_code] : keys) {
+			table.set(action, static_cast<int>(key_code));
+		}
+
+		table.save("../../data/Config/KeyboardBinding.cfg");
+	}
+
+	void Keyboard::reset() {
+		keys["MoveUp"] = sf::Keyboard::Scancode::W;
+		keys["MoveDown"] = sf::Keyboard::Scancode::S;
+		keys["MoveLeft"] = sf::Keyboard::Scancode::A;
+		keys["MoveRight"] = sf::Keyboard::Scancode::D;
+		keys["SwitchMode"] = sf::Keyboard::Scancode::Space;
+		keys["Pause"] = sf::Keyboard::Scancode::Escape;
 	}
 
 	std::string Mines::Keyboard::toString(sf::Keyboard::Scancode key) {
@@ -102,6 +125,8 @@ namespace Mines {
 				return "Backspace";
 			case Tab:      
 				return "Tab";
+			case Unknown:
+				return "Unknown";
 			default:
 				return "Key #" + std::to_string(static_cast<int>(key));
 		}

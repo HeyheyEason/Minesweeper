@@ -45,17 +45,8 @@ namespace Mines {
 			UI& ui
 		);
 
-		void handleInput(
-			const sf::Event& event,
-			Player& player,
-			Map& map,
-			UI& ui,
-			Keyboard& keyboard
-		);
-
-		void updateTimer(
-			UI& ui
-		);
+		void handleMessages(Player& player, Map& map, UI& ui);
+		void updateTimer(UI& ui);
 
 		Result checkGameState(
 			const Player& player,

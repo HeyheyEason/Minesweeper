@@ -5,11 +5,12 @@
 #include <map>
 #include <vector>
 #include <string>
-#include <functional>
-#include "Utilities/Bridge.hpp"
+#include <queue>
+#include "Utilities/Message.hpp"
 #include "Core/Map.hpp"
 #include "Core/Player.hpp"
 #include "Shell/Audio.hpp"
+#include "Shell/Keyboard.hpp"
 
 namespace Mines {
 	enum class Page {
@@ -24,7 +25,6 @@ namespace Mines {
 
 	class UI {
 	public:
-		Bridge bridge;
 		explicit UI(tgui::Gui& gui, const std::string& ui_folder, const std::string& version);
 		void handleError();
 		void switchPage(Page page);
@@ -42,11 +42,18 @@ namespace Mines {
 			int df_index
 		);
 
+		Keyboard& getKeyboard();
+		Message pollMessage();
+		void handleInput(const sf::Event& event, bool is_playing);
+
 	private:
 		tgui::Gui& gui;
 		std::map<Page, tgui::Group::Ptr> pages;
 		Page current_page;
 		std::vector<tgui::Label::Ptr> cell_labels;
+
+		Keyboard keyboard;
+		std::queue<Message> message_queue;
 
 		void loadPages(const std::string& folder);
 		void organizePages();

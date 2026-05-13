@@ -6,7 +6,6 @@
 #include <filesystem>
 #include "Shell/UI.hpp"
 #include "Shell/Audio.hpp"
-#include "Shell/Keyboard.hpp"
 #include "Core/System.hpp"
 #include "Core/Player.hpp"
 #include "Core/Map.hpp"
@@ -90,8 +89,7 @@ int main(int argc, char* argv[]) {
 
 	auto& audio = Mines::Audio::getInstance();
 	audio.loadSounds("../../rc/Audio/Sounds/");
-	Mines::UI ui(gui, "../../rc/Forms/", "1.5.0");
-	Mines::Keyboard keyboard;
+	Mines::UI ui(gui, "../../rc/Forms/", "1.6.0");
 	Mines::System system;
 	Mines::Player player("Player", 0, 0);
 	Mines::Map map;
@@ -100,29 +98,8 @@ int main(int argc, char* argv[]) {
 		window.setIcon(icon);
 	}
 
-	window.setFramerateLimit(60);
 	window.setKeyRepeatEnabled(false);
 	LOG_INFO("Testing...");
-
-	ui.bridge.start_game = [&](const std::string& name, int x, int y, int df_index) {
-		system.startGame(name, x, y, df_index, player, map, ui);
-	};
-
-	ui.bridge.resume_game = [&]() {
-		system.resumeGame();
-	};
-
-	ui.bridge.stop_game = [&](const std::string& res) {
-		system.stopGame(res, player, map, ui);
-	};
-
-	ui.bridge.bind_action = [&](const std::string& action) {
-		keyboard.setCurrentAction(action);
-	};
-
-	ui.bridge.is_binding = [&]() {
-		return keyboard.isBinding();
-	};
 
 	while (window.isOpen()) {
 		while (auto event = window.pollEvent()) {
@@ -131,11 +108,14 @@ int main(int argc, char* argv[]) {
 			}
 
 			gui.handleEvent(*event);
-			system.handleInput(*event, player, map, ui, keyboard);
+			ui.handleInput(*event, system.isPlaying());
 		}
+
+		system.handleMessages(player, map, ui);
 
 		if (system.isPlaying()) {
 			system.updateTimer(ui);
+			ui.updateGamePage(map, player);
 		}
 
 		audio.cleanup();

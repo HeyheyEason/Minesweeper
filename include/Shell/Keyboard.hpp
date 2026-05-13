@@ -14,12 +14,13 @@ namespace Mines {
 		std::pair<std::string, std::string> bind(sf::Keyboard::Scancode key);
 		bool isBinding() const;
 		sf::Keyboard::Scancode getKey(const std::string& action) const;
+		void saveKeys() const;
+		void reset();
+		static std::string toString(sf::Keyboard::Scancode key);
 
 	private:
 		std::map<std::string, sf::Keyboard::Scancode> keys;
 		bool is_binding = false;
 		std::string current_action;
-
-		std::string toString(sf::Keyboard::Scancode key);
 	};
 } // namespace Mines
