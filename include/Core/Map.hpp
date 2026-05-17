@@ -33,7 +33,12 @@ namespace Mines {
         int getCellToGo() const;
 
     private:
-        void countMines();
+        void checkConnectivity(
+            int r, int c,
+            std::vector<std::vector<bool>>& visited,
+            int& count
+        ) const;
+
         int cell_to_go;
     };
 } // namespace Mines

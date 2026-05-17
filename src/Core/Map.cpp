@@ -31,40 +31,72 @@ namespace Mines {
 
     Map::Map() : grid(Grid(16, std::vector<Cell>(16))), cell_to_go(256) {}
 
-    void Map::init(const std::set<int>& safe_cells, Difficulty df) {
-        std::vector<int> block_indices(64);
-        std::iota(block_indices.begin(), block_indices.end(), 0);
+    void Map::init(const std::set<int>& starting_safe_cells, Difficulty df) {
+        int target_mines = static_cast<int>(df);
+        int total_safe_cells = 256 - target_mines;
 
-        std::random_device rd;
-        std::mt19937 g(rd());
-        Randomizer::getInstance().shuffle(block_indices);
+        int start_idx = *starting_safe_cells.begin();
+        int start_r = start_idx / 16;
+        int start_c = start_idx % 16;
+
+        std::vector<int> block_indices(64);
+        bool is_map_valid = false;
         int placed = 0;
 
-        for (int block_idx : block_indices) {
-            if (placed >= static_cast<int>(df)) {
-                break;
-            }
+        int dr[] = { -1, -1, -1,  0, 0,  1, 1, 1 };
+        int dc[] = { -1,  0,  1, -1, 1, -1, 0, 1 };
 
-            int br = (block_idx / 8) * 2;
-            int bc = (block_idx % 8) * 2;
-            int pos[] = { 0, 1, 2, 3 };
-            Randomizer::getInstance().shuffle(pos, pos + 4);
+        do {
+            placed = 0;
+            grid = Grid(16, std::vector<Cell>(16));
+            cell_to_go = 256;
 
-            for (int p : pos) {
-                int r = br + (p / 2);
-                int c = bc + (p % 2);
-                int idx = r * 16 + c;
+            std::iota(block_indices.begin(), block_indices.end(), 0);
+            Randomizer::getInstance().shuffle(block_indices);
 
-                if (safe_cells.count(idx) == 0) {
-                    grid.at(r).at(c).is_mine = true;
-                    ++placed;
+            for (int block_idx : block_indices) {
+                if (placed >= target_mines) {
                     break;
                 }
-            }
-        }
 
-        cell_to_go -= placed;
-        countMines();
+                int br = (block_idx / 8) * 2;
+                int bc = (block_idx % 8) * 2;
+                int pos[] = { 0, 1, 2, 3 };
+                Randomizer::getInstance().shuffle(pos, pos + 4);
+
+                for (int p : pos) {
+                    int r = br + (p / 2);
+                    int c = bc + (p % 2);
+                    int idx = r * 16 + c;
+
+                    if (starting_safe_cells.count(idx) == 0) {
+                        grid.at(r).at(c).is_mine = true;
+                        ++placed;
+
+                        for (int i = 0; i < 8; ++i) {
+                            int nr = r + dr[i];
+                            int nc = c + dc[i];
+
+                            if (nr >= 0 && nr < 16 && nc >= 0 && nc < 16) {
+                                grid.at(nr).at(nc).mines_around += 1;
+                            }
+                        }
+
+                        break;
+                    }
+                }
+            }
+
+            int accessible_safe_cells = 0;
+            std::vector<std::vector<bool>> visited(16, std::vector<bool>(16, false));
+            checkConnectivity(start_r, start_c, visited, accessible_safe_cells);
+
+            if (accessible_safe_cells == total_safe_cells) {
+                is_map_valid = true;
+            }
+        } while (!is_map_valid);
+        
+        cell_to_go  = total_safe_cells;
     }
 
     void Map::revealAllCells(bool value) {
@@ -112,29 +144,25 @@ namespace Mines {
         return cell_to_go;
     }
 
-    void Map::countMines() {
-        for (int i = 0; i < 16; ++i) {
-            for (int j = 0; j < 16; ++j) {
-                int sum = 0;
-
-                for (int m = i - 1; m <= i + 1; ++m) {
-                    for (int n = j - 1; n <= j + 1; ++n) {
-                        if (m < 0 || m >= 16 || n < 0 || n >= 16) {
-                            continue;
-                        }
-
-                        if (m == i && n == j) {
-                            continue;
-                        }
-
-                        if (grid.at(m).at(n).is_mine) {
-                            sum += 1;
-                        }
-                    }
-                }
-
-                grid.at(i).at(j).mines_around = sum;
-            }
+    void Map::checkConnectivity(
+        int r, int c,
+        std::vector<std::vector<bool>>& visited,
+        int& count
+    ) const {
+        if (r < 0 || r >= 16 || c < 0 || c >= 16) {
+            return;
         }
+            
+        if (grid.at(r).at(c).is_mine || visited.at(r).at(c)) {
+            return;
+        }
+
+        visited.at(r).at(c) = true;
+        ++count;
+
+        checkConnectivity(r + 1, c, visited, count);
+        checkConnectivity(r - 1, c, visited, count);
+        checkConnectivity(r, c + 1, visited, count);
+        checkConnectivity(r, c - 1, visited, count);
     }
 } // namespace Mines
