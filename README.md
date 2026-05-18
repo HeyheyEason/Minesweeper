@@ -1,6 +1,6 @@
 # Minesweeper
 
-![Version](https://img.shields.io/badge/version-1.6.0-blue.svg)
+![Version](https://img.shields.io/badge/version-1.6.1-blue.svg)
 ![C++](https://img.shields.io/badge/C++-20-orange.svg)
 ![License](https://img.shields.io/badge/license-Source%20Available-green.svg)
 
@@ -8,7 +8,7 @@ A modern, high-performance Minesweeper implementation built with **C++20**. This
 
 ## 🌟 Key Features
 
-* **Modern Graphics Stack**: Built using **SFML 3.0** for low-level rendering and **TGUI 1.x** for a responsive user interface.
+* **Modern Graphics Stack**: Built using **SFML 3.0** for low-level rendering and **TGUI 1.12** for a responsive user interface.
 * **Keyboard-Centric Navigation**: Supports full grid navigation via `WASD` or Arrow keys, offering a faster alternative to traditional mouse-only gameplay.
 * **Dynamic Mine Generation**: Implements a robust randomization logic to ensure fair and challenging board layouts.
 * **First-Click Guarantee**: Optimized algorithm to ensure the first cell opened is never a mine.
@@ -38,7 +38,7 @@ A modern, high-performance Minesweeper implementation built with **C++20**. This
 
 Ensure you have the following installed and configured:
 * **Visual Studio** or **VS Code** with C++20 support.
-* **SFML 3.0** and **TGUI 1.x** libraries linked to your environment.
+* **SFML 3.0** and **TGUI 1.12** libraries linked to your environment.
 
 ### Installation & Build
 

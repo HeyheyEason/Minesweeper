@@ -181,13 +181,13 @@ namespace Mines {
 				return "";
 			}
 
-			double amplifier = 1.5;
+			double amplifier = 1.2;
 
 			if (difficulty == "Easy") {
 				amplifier = 1.0;
 			}
 			else if (difficulty == "Hard") {
-				amplifier = 2.0;
+				amplifier = 1.5;
 			}
 
 			int score = Mines::MAX_SCORE - (total_seconds * Mines::TIME_WEIGHT) - (player.getStep() * Mines::STEP_WEIGHT);
@@ -196,17 +196,13 @@ namespace Mines {
 
 			if (score >= 8500) {
 				rank = "S";
-			}
-			else if (score >= 7000) {
+			} else if (score >= 7000) {
 				rank = "A";
-			}
-			else if (score >= 5000) {
+			} else if (score >= 5500) {
 				rank = "B";
-			}
-			else if (score >= 3000) {
+			} else if (score >= 4000) {
 				rank = "C";
-			}
-			else {
+			} else {
 				rank = "D";
 			}
 

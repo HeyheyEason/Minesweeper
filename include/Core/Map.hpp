@@ -6,9 +6,9 @@
 
 namespace Mines {
     enum class Difficulty {
-        EASY = 36,
-        MEDIUM = 45,
-        HARD = 54
+        EASY = 30,
+        MEDIUM = 35,
+        HARD = 40
     };
 
     struct Cell {

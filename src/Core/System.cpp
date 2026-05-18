@@ -26,7 +26,7 @@ namespace Mines {
 			}
 		}
 
-		map.init(safe_cells, static_cast<Difficulty>(9 * difficulty + 36));
+		map.init(safe_cells, static_cast<Difficulty>(5 * difficulty + 30));
 		map.grid[x][y].player_here = true;
 		map.processCombo(x, y);
 		ui.setModeIndicator(static_cast<int>(current_mode));
